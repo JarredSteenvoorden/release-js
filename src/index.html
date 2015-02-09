@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-controller="AppController">
+<head>
+    <title>releasejs</title>
+
+    <!-- Vendor Stylesheets -->
+    <!-- bower:css -->
+    <link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="vendor/angular-motion/dist/angular-motion.css" rel="stylesheet" />
+    <link href="vendor/bootstrap-additions/dist/bootstrap-additions.min.css" rel="stylesheet" />
+    <!-- endbower -->
+
+    <!-- App Stylesheets -->
+    <!-- include: "type": "css", "files": "**/*.css" -->
+    <link href="app/app.css" rel="stylesheet" type="text/css">
+    <link href="app/pages/main/main.css" rel="stylesheet" type="text/css">
+    <!-- /include -->
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="heading-logo text-right"><span class="glyphicon glyphicon-film"></span> releasesjs</div>
+    </div>
+
+    <div class="container" ui-view></div>
+
+    <!-- Vendor Scripts -->
+    <!-- bower:js -->
+    <script src="vendor/jquery/dist/jquery.js"></script>
+    <script src="vendor/angular/angular.js"></script>
+    <script src="vendor/angular-animate/angular-animate.js"></script>
+    <script src="vendor/angular-strap/dist/angular-strap.js"></script>
+    <script src="vendor/angular-strap/dist/angular-strap.tpl.js"></script>
+    <script src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="vendor/angular-resource/angular-resource.js"></script>
+    <!-- endbower -->
+
+    <!-- App Scripts -->
+    <!-- include: "type": "js", "files": "**/*.js" -->
+    <script src="app/app.js"></script>
+    <script src="app/pages/main/main.js"></script>
+    <script src="app/pages/views/item/feed-item.js"></script>
+    <script src="app/shared/feed-service.js"></script>
+    <script src="app/shared/service.js"></script>
+    <!-- /include -->
+</body>
+</html>

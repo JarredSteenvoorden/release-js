@@ -1,0 +1,13 @@
+{
+  "name": "releasejs",
+  "version": "0.0.1",
+  "description": "Scene release aggregator",
+  "private": true,
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-bower": "^0.17.0",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-include-source": "^0.4.5",
+    "grunt-wiredep": "^2.0.0"
+  }
+}
