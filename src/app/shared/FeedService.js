@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('app.feed-service', [])
-
+angular.module('app.shared')
     .factory('FeedService', function($resource) {
         return {
             load : function(url, success, failure) {

@@ -16,6 +16,16 @@ module.exports = function(grunt) {
             }
         },
 
+        // Copy any files excluded by the above bower command
+        copy: {
+            main: {
+                files: [
+                    { src: 'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2', dest: 'src/vendor/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2' },
+                    { src: 'bower_components/bootstrap/dist/css/bootstrap.css.map', dest: 'src/vendor/bootstrap/dist/css/bootstrap.css.map' }
+                ]
+            }
+        },
+
         // Include bower dependencies in the correct order (change src to vendor directory)
         wiredep: {
             task: {
@@ -45,15 +55,16 @@ module.exports = function(grunt) {
             },
             myTarget: {
                 files: {
-                    'index.html': 'index.html'
+                    'src/index.html': 'src/index.html'
                 }
             }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-bower');
     grunt.loadNpmTasks('grunt-wiredep');
     grunt.loadNpmTasks('grunt-include-source');
-    grunt.registerTask('default', ['clean', 'bower', 'wiredep', 'includeSource']);
+    grunt.registerTask('default', ['clean', 'bower', 'copy', 'wiredep', 'includeSource']);
 };
