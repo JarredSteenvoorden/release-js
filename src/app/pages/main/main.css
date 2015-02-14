@@ -1,0 +1,67 @@
+.movie-list {
+
+}
+
+.movie {
+    float: left;
+    width: 285px;
+    height: 150px;
+
+    margin-bottom: 20px;
+    margin-right: 20px;
+
+    text-align: left;
+}
+    .movie-poster {
+        float: left;
+        width: 100px;
+
+        margin-right: 10px;
+    }
+
+    .movie-title {
+        font-size: 120%;
+    }
+
+    .movie-info {
+        float: left;
+    }
+
+        .movie-info p {
+            margin: 0;
+            padding: 0;
+            font-size: 75%;
+        }
+
+    .ratings {
+    }
+        .rating {
+            display: block;
+
+            float: left;
+            margin-right: 5px;
+            margin-top: 5px;
+
+            width: 25px;
+            height: 25px;
+            line-height: 23px;
+
+            text-align: center;
+            font-size: 75%;
+            color: black;
+        }
+            .rating:hover {
+                text-decoration: none;
+            }
+            .rating-none {
+                display: none;
+            }
+            .rating-green {
+                background-color: #AAFFAA;
+            }
+            .rating-orange {
+                background-color: #FFFFAA;
+            }
+            .rating-red {
+                background-color: #FFAAAA;
+            }

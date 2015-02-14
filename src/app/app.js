@@ -3,6 +3,8 @@
 angular.module('app', [
         // Vendor
         'ngResource',               // Rest resource requests
+        'ngSanitize',
+
         'ui.router',                // UI Router
         'mgcrea.ngStrap',           // Bootstrap UI
         'ngAnimate',                // Smooth animations
@@ -20,6 +22,14 @@ angular.module('app', [
             .otherwise( '/main' );
     })
 
+    .config(function($tooltipProvider) {
+        angular.extend($tooltipProvider.defaults, {
+            animation: 'am-flip-x',
+            placement: 'bottom',
+            html: true
+        })
+    })
+
     // Main App Controller
     .controller('AppController', function($scope) {
 
@@ -28,6 +38,17 @@ angular.module('app', [
 
 angular.module('app.pages', ['ui.router']);
 angular.module('app.shared', ['ui.router']);
+
+angular.isUndefinedOrNull = function(value) {
+    return angular.isUndefined(value) || value === null
+};
+
+angular.isNullOrWhitespace = function(value) {
+    if (angular.isUndefinedOrNull(value))
+        return true;
+
+    return value.replace(/\s/g, '').length < 1;
+}
 
 // Helper functions used for locating URL of the executing script
 // See page routes to see how they are used to locate template files

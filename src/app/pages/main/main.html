@@ -1,8 +1,14 @@
-﻿<h3>Booya!</h3>
-
-<pre>{{result}}</pre>
-
-<button type="button" class="btn btn-lg btn-primary" data-animation="am-flip-x" data-placement="center" bs-modal="modal">Click to toggle modal
-    <br>
-    <small>(using an object)</small>
-</button>
+﻿<div class="row movie-list">
+    <div class="movie" bs-tooltip="movie.tooltip" ng-repeat="movie in movies">
+        <img class="movie-poster" ng-src="{{movie.posterImage}}" />
+        <div class="movie-title">{{movie.title}}</div>
+        <div class="movie-info">
+            <p>{{movie.year}} - {{movie.getQuality()}}</p>
+            <div class="ratings">
+                <a class="rating {{movie.getTomatoStyle()}}">{{movie.getTomatoMeter()}}</a>
+                <a class="rating {{movie.getImdbStyle()}}" href="{{movie.getImdbLink()}}">{{movie.getImdbRating()}}</a>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

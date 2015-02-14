@@ -2,56 +2,145 @@
 //https://medium.com/opinionated-angularjs/angular-model-objects-with-javascript-classes-2e6a067c73bc
 
 angular.module('app.shared')
-    .factory('Movie', function () {
+    .factory('Movie', function ($http) {
 
         /**
-         * Constructor, with class name
+         * Constructor
          */
-        function Movie(firstName, lastName, role, organisation) {
+        function Movie(releaseName) {
             // Public properties, assigned to the instance ('this')
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.role = role;
-            this.organisation = organisation;
+            this.releaseName = releaseName;
+            this.posterImage = 'assets/poster.png';
+
+            // Extract info from the release name, eg
+            // American Heist 2014 DVDRip x264-EXViD
+
+            // Extract year
+            var regexResult = /(^|.*)(\d{4})(.*)-(.*|$)/.exec(releaseName);
+
+            if (regexResult && regexResult.length == 5)
+            {
+                // Movie info
+                this.title = regexResult[1].trim();
+                this.year = regexResult[2];
+
+                // Release info
+                var extraInfo = regexResult[3].replace('LIMITED', '').trim().split(' ');
+                this.quality = extraInfo.length >= 3 ? extraInfo[extraInfo.length - 3] : '';
+                this.source = extraInfo.length >= 2 ? extraInfo[extraInfo.length - 2] : '';
+                this.encoding = extraInfo.length >= 1 ? extraInfo[extraInfo.length - 1] : '';
+                this.releaseGroup = regexResult[4];
+            }
+            else
+                this.title = releaseName;
+
+            this.tooltip = this.releaseName.substring(this.releaseName.indexOf(this.year) + 4).trim();
+
+            // Lookup additional info
+            var movie = this;
+            $http.get('http://www.omdbapi.com/?t=' + movie.title + '&y=' + movie.year + '&tomatoes=true&type=movie&plot=short&r=json').
+                success(function(data) {
+                    if (data.Response == "True") {
+
+                        if (data.Poster != "N/A")
+                            movie.posterImage = data.Poster;
+
+                        movie.plot = data.Plot;
+
+                        movie.imdbId = data.imdbID;
+                        movie.imdbRating = data.imdbRating;
+                        movie.imdbVotes = data.imdbVotes;
+
+                        movie.tomatoConsensus = data.tomatoConsensus;
+                        movie.tomatoMeter = data.tomatoMeter;
+
+                        movie.tomatoRating = data.tomatoRating;
+                        movie.tomatoReviews = data.tomatoReviews;
+                        movie.tomatoUserRating = data.tomatoUserRating;
+                        movie.tomatoUserReviews = data.tomatoUserReviews;
+
+                        movie.tooltip = movie.plot;
+                    } else {
+                        console.log('Lookup failed for: ' + movie.title + '. ' + data.Error);
+                    }
+                }).
+                error(function(data, status, headers, config) {
+                    // log error
+                });
         }
 
         /**
-         * Public method, assigned to prototype
+         * Public methods
          */
-        Movie.prototype.getFullName = function () {
-            return this.firstName + ' ' + this.lastName;
+        Movie.prototype.getQuality = function () {
+            return !angular.isNullOrWhitespace(this.quality) ? this.quality : this.source;
         };
+
+        Movie.prototype.getImdbRating = function () {
+            if (angular.isNullOrWhitespace(this.imdbRating) || this.imdbRating == "N/A")
+                return;
+
+            return this.imdbRating;
+        };
+
+        Movie.prototype.getTomatoMeter = function () {
+            if (angular.isNullOrWhitespace(this.tomatoMeter) || this.tomatoMeter == "N/A")
+                return;
+
+            return this.tomatoMeter;
+        };
+
+        Movie.prototype.getImdbStyle = function () {
+            return ratingToStyle(this.getImdbRating(), 10);
+        };
+
+        Movie.prototype.getTomatoStyle = function () {
+            return ratingToStyle(this.getTomatoMeter());
+        };
+
+        Movie.prototype.getImdbLink = function () {
+            return 'http://www.imdb.com/title/' + this.imdbId + '/';
+        };
+
+        /**
+         * Private functions
+         */
+        function ratingToStyle(rating, multiplier) {
+            multiplier = typeof multiplier !== 'undefined' ? multiplier : 1;
+
+            if (angular.isNullOrWhitespace(rating))
+                return 'rating-none';
+
+            rating = parseInt(rating) * multiplier;
+
+            if (rating >= 70)
+                return 'rating-green';
+            if (rating >= 50)
+                return 'rating-orange';
+
+            return 'rating-red';
+        }
 
         /**
          * Private property
          */
         var possibleRoles = ['admin', 'editor', 'guest'];
 
-        /**
-         * Private function
-         */
         function checkRole(role) {
             return possibleRoles.indexOf(role) !== -1;
         }
 
         /**
          * Static property
-         * Using copy to prevent modifications to private property
          */
         Movie.possibleRoles = angular.copy(possibleRoles);
 
-        /**
-         * Static method, assigned to class
-         * Instance ('this') is not available in static context
+        /**a
+         * Static method
          */
         Movie.build = function (data) {
-            if (!checkRole(data.role)) {
-                return;
-            }
             return new Movie(
-                data.first_name,
-                data.last_name,
-                data.role
+                data.release_name
             );
         };
 
