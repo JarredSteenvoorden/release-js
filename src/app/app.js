@@ -3,6 +3,7 @@
 angular.module('app', [
         // Vendor
         'ngResource',               // Rest resource requests
+        'angular-data.DSCacheFactory',
         'ngSanitize',
 
         'ui.router',                // UI Router
@@ -25,7 +26,7 @@ angular.module('app', [
     .config(function($tooltipProvider) {
         angular.extend($tooltipProvider.defaults, {
             animation: 'am-flip-x',
-            placement: 'bottom',
+            placement: 'right',
             html: true
         })
     })

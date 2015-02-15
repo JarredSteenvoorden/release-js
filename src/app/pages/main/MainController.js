@@ -2,11 +2,9 @@
 //http://cacodaemon.de/index.php?id=51
 
 angular.module('app.pages')
-    .controller('MainController', function($scope, ReleaseLogReader) {
-        $scope.movies = [];
+    .controller('MainController', function($scope, MovieList) {
+        $scope.movies = MovieList.movies;
 
-        ReleaseLogReader.load(function (movies) {
-            $scope.movies = movies;
-        });
+        MovieList.load();
     })
 ;

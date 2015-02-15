@@ -18,9 +18,7 @@
 
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="heading-logo text-right"><span class="glyphicon glyphicon-film"></span> releasesjs</div>
-    </div>
+    <div class="heading-logo"><span class="glyphicon glyphicon-film"></span> releasesjs</div>
 
     <div class="main-content" ui-view></div>
 
@@ -34,6 +32,7 @@
     <script src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="vendor/angular-resource/angular-resource.js"></script>
     <script src="vendor/angular-sanitize/angular-sanitize.js"></script>
+    <script src="vendor/angular-cache/dist/angular-cache.js"></script>
     <!-- endbower -->
 
     <!-- App Scripts -->
@@ -43,9 +42,13 @@
     <script src="app/pages/admin/AdminRoute.js"></script>
     <script src="app/pages/main/MainController.js"></script>
     <script src="app/pages/main/MainRoute.js"></script>
-    <script src="app/shared/FeedService.js"></script>
     <script src="app/shared/Movie.js"></script>
-    <script src="app/shared/ReleaseLogReader.js"></script>
+    <script src="app/shared/MovieList.js"></script>
+    <script src="app/shared/metadata-sources/OmdbService.js"></script>
+    <script src="app/shared/release-sources/FeedService.js"></script>
+    <script src="app/shared/release-sources/ReleaseLogFeed.js"></script>
+    <script src="app/shared/release-sources/ReleasesBbFeed.js"></script>
+    <script src="app/shared/release-sources/SceneSourceFeed.js"></script>
     <!-- /include -->
 </body>
 </html>

@@ -1,14 +1,21 @@
-﻿<div class="row movie-list">
-    <div class="movie" bs-tooltip="movie.tooltip" ng-repeat="movie in movies">
-        <img class="movie-poster" ng-src="{{movie.posterImage}}" />
-        <div class="movie-title">{{movie.title}}</div>
-        <div class="movie-info">
-            <p>{{movie.year}} - {{movie.getQuality()}}</p>
-            <div class="ratings">
-                <a class="rating {{movie.getTomatoStyle()}}">{{movie.getTomatoMeter()}}</a>
-                <a class="rating {{movie.getImdbStyle()}}" href="{{movie.getImdbLink()}}">{{movie.getImdbRating()}}</a>
-                <div class="clearfix"></div>
+﻿<div class="movie-list">
+    <div class="movie" ng-repeat="movie in movies">
+
+        <div class="pull-left" bs-tooltip="movie.getPosterTooltip()">
+            <div class="movie-poster" ng-class="{'movie-poster-none': !movie.posterImage}" ng-style="movie.posterImage ? {'background-image': 'url(' + movie.posterImage + ')'} : {}"></div>
+            <div class="movie-ratings">
+                <div class="movie-rating {{movie.getTomatoStyle()}}">{{movie.getTomatoMeter()}}</div>
+                <div class="movie-rating {{movie.getImdbStyle()}}">{{movie.getImdbRating()}}</div>
             </div>
         </div>
+
+        <div>
+            <div class="movie-title">{{movie.title}}</div>
+            <div class="movie-info">{{movie.year}} - {{movie.genres}}</div>
+            <div class="movie-plot">{{movie.plot}}</div>
+        </div>
+
+        <div class="movie-quality">{{movie.getQuality()}}</div>
+        
     </div>
 </div>

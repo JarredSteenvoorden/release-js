@@ -2,27 +2,22 @@
 //https://medium.com/opinionated-angularjs/angular-model-objects-with-javascript-classes-2e6a067c73bc
 
 angular.module('app.shared')
-    .factory('Movie', function ($http) {
+    .factory('Movie', function ($http, OmdbService) {
 
         /**
          * Constructor
          */
         function Movie(releaseName) {
-            // Public properties, assigned to the instance ('this')
             this.releaseName = releaseName;
-            this.posterImage = 'assets/poster.png';
 
             // Extract info from the release name, eg
             // American Heist 2014 DVDRip x264-EXViD
-
-            // Extract year
-            var regexResult = /(^|.*)(\d{4})(.*)-(.*|$)/.exec(releaseName);
-
+            var regexResult = /(^|.*)( \d{4} )(.*)-(.*|$)/.exec(releaseName);
             if (regexResult && regexResult.length == 5)
             {
                 // Movie info
                 this.title = regexResult[1].trim();
-                this.year = regexResult[2];
+                this.year = regexResult[2].trim();
 
                 // Release info
                 var extraInfo = regexResult[3].replace('LIMITED', '').trim().split(' ');
@@ -34,39 +29,8 @@ angular.module('app.shared')
             else
                 this.title = releaseName;
 
-            this.tooltip = this.releaseName.substring(this.releaseName.indexOf(this.year) + 4).trim();
-
-            // Lookup additional info
-            var movie = this;
-            $http.get('http://www.omdbapi.com/?t=' + movie.title + '&y=' + movie.year + '&tomatoes=true&type=movie&plot=short&r=json').
-                success(function(data) {
-                    if (data.Response == "True") {
-
-                        if (data.Poster != "N/A")
-                            movie.posterImage = data.Poster;
-
-                        movie.plot = data.Plot;
-
-                        movie.imdbId = data.imdbID;
-                        movie.imdbRating = data.imdbRating;
-                        movie.imdbVotes = data.imdbVotes;
-
-                        movie.tomatoConsensus = data.tomatoConsensus;
-                        movie.tomatoMeter = data.tomatoMeter;
-
-                        movie.tomatoRating = data.tomatoRating;
-                        movie.tomatoReviews = data.tomatoReviews;
-                        movie.tomatoUserRating = data.tomatoUserRating;
-                        movie.tomatoUserReviews = data.tomatoUserReviews;
-
-                        movie.tooltip = movie.plot;
-                    } else {
-                        console.log('Lookup failed for: ' + movie.title + '. ' + data.Error);
-                    }
-                }).
-                error(function(data, status, headers, config) {
-                    // log error
-                });
+            // Lookup movie meta data
+            OmdbService.populateMovie(this);
         }
 
         /**
@@ -77,29 +41,38 @@ angular.module('app.shared')
         };
 
         Movie.prototype.getImdbRating = function () {
-            if (angular.isNullOrWhitespace(this.imdbRating) || this.imdbRating == "N/A")
-                return;
-
-            return this.imdbRating;
+            return !angular.isNullOrWhitespace(this.imdbRating) ? this.imdbRating : '-';
         };
 
         Movie.prototype.getTomatoMeter = function () {
-            if (angular.isNullOrWhitespace(this.tomatoMeter) || this.tomatoMeter == "N/A")
-                return;
-
-            return this.tomatoMeter;
+            return !angular.isNullOrWhitespace(this.tomatoMeter) ? this.tomatoMeter : '-';
         };
 
         Movie.prototype.getImdbStyle = function () {
-            return ratingToStyle(this.getImdbRating(), 10);
+            return ratingToStyle(this.imdbRating, 10);
         };
 
         Movie.prototype.getTomatoStyle = function () {
-            return ratingToStyle(this.getTomatoMeter());
+            return ratingToStyle(this.tomatoMeter);
         };
 
         Movie.prototype.getImdbLink = function () {
             return 'http://www.imdb.com/title/' + this.imdbId + '/';
+        };
+
+        Movie.prototype.getPosterTooltip = function () {
+            var tooltip = '';
+
+            if (!angular.isNullOrWhitespace(this.tomatoMeter))
+                tooltip += '<p>RT: ' + this.tomatoMeter + '% - ' + this.tomatoReviews + ' critics</p>';
+
+            if (!angular.isNullOrWhitespace(this.imdbRating))
+                tooltip += '<p>IMDb: ' + this.imdbRating + ' - ' + this.imdbVotes + ' viewers</p>';
+
+            if (!angular.isNullOrWhitespace(this.tomatoConsensus))
+                tooltip += '<p>' + this.tomatoConsensus + '</p>';
+
+            return tooltip;
         };
 
         /**
@@ -109,7 +82,7 @@ angular.module('app.shared')
             multiplier = typeof multiplier !== 'undefined' ? multiplier : 1;
 
             if (angular.isNullOrWhitespace(rating))
-                return 'rating-none';
+                return 'rating-red';
 
             rating = parseInt(rating) * multiplier;
 

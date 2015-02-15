@@ -1,14 +1,12 @@
 'use strict';
 
 angular.module('app.shared')
-    .factory('ReleaseLogReader', function(FeedService, Movie) {
-
+    .factory('ReleaseLogFeed', function(FeedService, Movie) {
         var feedUrl = 'http://www.rlslog.net/category/movies/feed';
 
         return {
             load : function(success) {
                 FeedService.load(feedUrl, function (feedResponse) {
-                    // On successful load
                     var movies = [];
                     angular.forEach(feedResponse.responseData.feed.entries, function (feedEntry) {
 
