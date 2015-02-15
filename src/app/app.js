@@ -27,7 +27,8 @@ angular.module('app', [
         angular.extend($tooltipProvider.defaults, {
             animation: 'am-flip-x',
             placement: 'right',
-            html: true
+            html: true,
+            delay: '250'
         })
     })
 
