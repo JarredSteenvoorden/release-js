@@ -16,10 +16,14 @@ angular.module('app.shared')
         });
 
         return {
-            load: function(title, year) {
+            load: function(title, year, imdbId) {
                 var deferred = $q.defer();
 
-                $http.get('http://www.omdbapi.com/?t=' + title + '&y=' + year + '&tomatoes=true&type=movie&plot=short&r=json',
+                var search = !angular.isNullOrWhitespace(imdbId) ?
+                    'i=' + imdbId :
+                    't=' + title + '&y=' + year;
+
+                $http.get('http://www.omdbapi.com/?' + search + '&tomatoes=true&type=movie&plot=short&r=json',
                     { cache: DSCacheFactory.get(cacheName) })
                     .success(function (data) {
                         deferred.resolve(data);
@@ -32,13 +36,14 @@ angular.module('app.shared')
             },
 
             populateMovie: function(movie) {
-                this.load(movie.title, movie.year).then(function(data) {
+                this.load(movie.title, movie.year, movie.imdbId).then(function(data) {
                     if (data.Response == 'True') {
 
                         // Cannot use IMDB poster images, give 403 when running outside of localhost
                         /*if (data.Poster != 'N/A')
                             movie.posterImage = data.Poster;*/
 
+                        movie.title = data.Title != 'N/A' ? data.Title : movie.title;
                         movie.genres = data.Genre;
                         movie.plot = data.Plot;
 

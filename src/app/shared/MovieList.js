@@ -10,6 +10,7 @@ angular.module('app.shared')
             ReleaseLogFeed.load(function (movies) {
                 angular.forEach(movies, function (movie) {
                     $this.movies.push(movie);
+                    movie.lookupMetaData();
                 });
             });
         };

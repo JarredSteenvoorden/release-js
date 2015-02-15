@@ -4,8 +4,8 @@
         <div class="pull-left" bs-tooltip="movie.getPosterTooltip()">
             <div class="movie-poster" ng-class="{'movie-poster-none': !movie.posterImage}" ng-style="movie.posterImage ? {'background-image': 'url(' + movie.posterImage + ')'} : {}"></div>
             <div class="movie-ratings">
-                <div class="movie-rating {{movie.getTomatoStyle()}}">{{movie.getTomatoMeter()}}</div>
-                <div class="movie-rating {{movie.getImdbStyle()}}">{{movie.getImdbRating()}}</div>
+                <a class="movie-rating" ng-class="movie.getTomatoStyle()" ng-href="{{movie.getTomatoLink()}}" target="_blank">{{movie.getTomatoMeter()}}</a>
+                <a class="movie-rating" ng-class="movie.getImdbStyle()" ng-href="{{movie.getImdbLink()}}" target="_blank">{{movie.getImdbRating()}}</a>
             </div>
         </div>
 

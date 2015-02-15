@@ -28,10 +28,12 @@ angular.module('app.shared')
             }
             else
                 this.title = releaseName;
+        }
 
+        Movie.prototype.lookupMetaData = function () {
             // Lookup movie meta data
             OmdbService.populateMovie(this);
-        }
+        };
 
         /**
          * Public methods
@@ -57,7 +59,11 @@ angular.module('app.shared')
         };
 
         Movie.prototype.getImdbLink = function () {
-            return 'http://www.imdb.com/title/' + this.imdbId + '/';
+            return 'http://www.imdb.com/title/' + encodeURIComponent(this.imdbId) + '/';
+        };
+
+        Movie.prototype.getTomatoLink = function () {
+            return 'http://www.rottentomatoes.com/search/?search=' + encodeURIComponent(this.title);
         };
 
         Movie.prototype.getPosterTooltip = function () {

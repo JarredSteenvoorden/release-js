@@ -46,6 +46,10 @@
         color: black;
         opacity: 0.8;
     }
+        .movie-rating:hover, .movie-rating:active, .movie-rating:visited, .movie-rating:link {
+            text-decoration: none;
+            color: black;
+        }
         .rating-green {
             background-color: #AAFFAA;
         }
