@@ -19,6 +19,11 @@ angular.module('app.shared')
                             feedEntry.title
                         );
 
+                        // Match <img src="somthing.jpg" /> to extract the poster
+                        var regexResult = /(^|.*)(img.*src=")(.*?)("[\s\S]*|$)/.exec(feedEntry.content);
+                        if (regexResult && regexResult.length == 5)
+                            movie.posterImage = regexResult[3];
+
                         this.push(movie);
                     }, movies);
 

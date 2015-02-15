@@ -1,3 +1,6 @@
+// The Open Movie Database
+// http://www.omdbapi.com/
+
 'use strict';
 
 angular.module('app.shared')
@@ -32,8 +35,9 @@ angular.module('app.shared')
                 this.load(movie.title, movie.year).then(function(data) {
                     if (data.Response == 'True') {
 
-                        if (data.Poster != 'N/A')
-                            movie.posterImage = data.Poster;
+                        // Cannot use IMDB poster images, give 403 when running outside of localhost
+                        /*if (data.Poster != 'N/A')
+                            movie.posterImage = data.Poster;*/
 
                         movie.genres = data.Genre;
                         movie.plot = data.Plot;
