@@ -3,6 +3,7 @@
 <head>
     <title>release-js</title>
 
+    <!-- build:css app/app.css -->
     <!-- Vendor Stylesheets -->
     <!-- bower:css -->
     <link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
@@ -15,13 +16,13 @@
     <link href="app/app.css" rel="stylesheet" type="text/css">
     <link href="app/pages/main/main.css" rel="stylesheet" type="text/css">
     <!-- /include -->
-
+    <!-- endbuild -->
 </head>
 <body>
-    <div class="heading-logo"><span class="glyphicon glyphicon-film"></span> releases-js</div>
-
+    <div class="heading-logo">releases-js</div>
     <div class="main-content" ui-view></div>
 
+    <!-- build:js app/app.js -->
     <!-- Vendor Scripts -->
     <!-- bower:js -->
     <script src="vendor/jquery/dist/jquery.js"></script>
@@ -49,6 +50,8 @@
     <script src="app/shared/release-sources/ReleaseLogFeed.js"></script>
     <script src="app/shared/release-sources/ReleasesBbFeed.js"></script>
     <script src="app/shared/release-sources/SceneSourceFeed.js"></script>
+    <script src="app/templates.js"></script>
     <!-- /include -->
+    <!-- endbuild -->
 </body>
 </html>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app.shared')
-    .service('OmdbService', function ($q, $http, DSCacheFactory) {
+    .service('OmdbService', ['$q', '$http', 'DSCacheFactory', function ($q, $http, DSCacheFactory) {
         var cacheName = 'OmdbCache';
 
         DSCacheFactory(cacheName, {
@@ -56,4 +56,4 @@ angular.module('app.shared')
                 });
             }
         };
-    });
+    }]);

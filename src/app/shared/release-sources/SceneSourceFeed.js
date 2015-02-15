@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app.shared')
-    .factory('SceneSourceFeed', function(FeedService, Movie) {
+    .factory('SceneSourceFeed', ['FeedService', 'Movie', function(FeedService, Movie) {
         var feedUrl = 'http://www.scnsrc.me/category/films/feed';
 
         return {
@@ -26,5 +26,4 @@ angular.module('app.shared')
                 })
             }
         }
-    })
-;
+    }]);

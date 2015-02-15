@@ -1,12 +1,11 @@
 'use strict';
-registerScriptPath();
 
 angular.module('app.pages')
-    .config(function config($stateProvider) {
+    .config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state( 'main', {
             url: '/main',
             controller: 'MainController',
-            templateUrl: getScriptPath('MainRoute.js') + '/main.html'
+            templateUrl: 'main.html'
         });
-    })
+    }])
 ;

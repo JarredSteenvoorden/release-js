@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app.shared')
-    .service('MovieList', function (SceneSourceFeed, ReleaseLogFeed) {
+    .service('MovieList', ['SceneSourceFeed', 'ReleaseLogFeed', function (SceneSourceFeed, ReleaseLogFeed) {
         var $this = this;
         this.movies = [];
 
@@ -13,4 +13,4 @@ angular.module('app.shared')
                 });
             });
         };
-    });
+    }]);

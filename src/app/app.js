@@ -18,24 +18,24 @@ angular.module('app', [
     ])
 
     // Configure router
-    .config(function($stateProvider, $urlRouterProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
         $urlRouterProvider
             .otherwise( '/main' );
-    })
+    }])
 
-    .config(function($tooltipProvider) {
+    .config(['$tooltipProvider', function($tooltipProvider) {
         angular.extend($tooltipProvider.defaults, {
             animation: 'am-flip-x',
             placement: 'right',
             html: true,
             delay: '250'
         })
-    })
+    }])
 
     // Main App Controller
-    .controller('AppController', function($scope) {
+    .controller('AppController', ['$scope', function($scope) {
 
-    })
+    }])
 ;
 
 angular.module('app.pages', ['ui.router']);
@@ -50,26 +50,4 @@ angular.isNullOrWhitespace = function(value) {
         return true;
 
     return value.replace(/\s/g, '').length < 1;
-}
-
-// Helper functions used for locating URL of the executing script
-// See page routes to see how they are used to locate template files
-var scriptPaths = [];
-function registerScriptPath() {
-    var scripts = document.getElementsByTagName('script');
-    var fullFileName = scripts[scripts.length-1].src;
-    var directory = fullFileName.substring(0, fullFileName.lastIndexOf('/'));
-    var fileName = fullFileName.substring(fullFileName.lastIndexOf('/') + 1);
-
-    if (!(fileName in scriptPaths))
-        scriptPaths[fileName] = directory;
-    else
-        alert("The script '" + fileName + "' is registered in multiple paths.\n" + scriptPaths[fileName] + "\n" + directory);
-}
-
-function getScriptPath(fileName) {
-    if (fileName in scriptPaths)
-        return scriptPaths[fileName];
-
-    alert("The script '" + fileName + "' has no registered directory.")
-}
+};

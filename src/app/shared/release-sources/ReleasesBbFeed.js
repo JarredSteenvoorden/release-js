@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app.shared')
-    .factory('ReleasesBbFeed', function(FeedService, Movie) {
+    .factory('ReleasesBbFeed', ['FeedService', 'Movie', function(FeedService, Movie) {
         var feedUrl = 'http://www.rlsbb.com/category/movies/feed';
 
         return {
@@ -21,5 +21,4 @@ angular.module('app.shared')
                 })
             }
         }
-    })
-;
+    }]);

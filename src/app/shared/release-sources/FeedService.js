@@ -45,7 +45,7 @@
  */
 
 angular.module('app.shared')
-    .factory('FeedService', function($resource) {
+    .factory('FeedService', ['$resource', function($resource) {
         return {
             load : function(url, success, failure) {
                 return $resource('http://ajax.googleapis.com/ajax/services/feed/load', {}, {
@@ -54,5 +54,4 @@ angular.module('app.shared')
                 .fetch({}, {}, success, failure);
             }
         }
-    })
-;
+    }]);

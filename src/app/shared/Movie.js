@@ -2,7 +2,7 @@
 //https://medium.com/opinionated-angularjs/angular-model-objects-with-javascript-classes-2e6a067c73bc
 
 angular.module('app.shared')
-    .factory('Movie', function ($http, OmdbService) {
+    .factory('Movie', ['$http', 'OmdbService', function ($http, OmdbService) {
 
         /**
          * Constructor
@@ -121,5 +121,5 @@ angular.module('app.shared')
          * Return the constructor function
          */
         return Movie;
-    })
+    }])
 ;

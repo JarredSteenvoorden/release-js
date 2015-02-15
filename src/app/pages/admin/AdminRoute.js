@@ -1,12 +1,11 @@
 'use strict';
-registerScriptPath();
 
 angular.module('app.pages')
-    .config(function config($stateProvider) {
+    .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state( 'admin', {
             url: '/admin',
             controller: 'AdminController',
-            templateUrl: getScriptPath('AdminRoute.js') + '/admin.html'
+            templateUrl: 'admin.html'
         });
-    })
+    }])
 ;

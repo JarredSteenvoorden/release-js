@@ -31,7 +31,7 @@
         margin-right: 10px;
     }
         .movie-poster-none {
-            background-image: url("../../../assets/poster.png") !important;
+            background-image: url("../../../assets/poster.png");
             opacity: 0.8;
         }
 
