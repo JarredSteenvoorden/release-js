@@ -15,10 +15,11 @@
     font-size: 75%;
     text-align: left;
     vertical-align: top;
+
+    background-color: #30414A;
 }
     .movie:hover {
-        background-color: #444444;
-        border-radius: 10px;
+        background-color: #435C6B;
     }
 
     .movie-poster {

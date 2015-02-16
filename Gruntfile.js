@@ -145,11 +145,7 @@ module.exports = function(grunt) {
                     { src: 'dist/app/app.css', dest: 'dist/app/app.css' }
                 ]
             }
-        },
-    });
-
-    grunt.registerTask('heroku-php-dist', 'Creates a heroku php bootloader', function() {
-        grunt.file.write('dist/index.php', '<?php include_once("index.html"); ?>');
+        }
     });
 
     grunt.loadNpmTasks('grunt-contrib-clean');
@@ -166,7 +162,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('vendor', ['clean:vendor', 'bower:vendor', 'copy:vendor', 'wiredep:vendor']);
     grunt.registerTask('dev', ['ngtemplates:dev', 'includeSource:dev']);
-    grunt.registerTask('dist', ['clean:dist', 'copy:dist', 'useminPrepare', 'concat:generated', 'cssmin:dist', 'uglify:dist', 'usemin', 'replace:dist', 'heroku-php-dist']);
+    grunt.registerTask('dist', ['clean:dist', 'copy:dist', 'useminPrepare', 'concat:generated', 'cssmin:dist', 'uglify:dist', 'usemin', 'replace:dist']);
 
     grunt.registerTask('default', ['vendor', 'dev', 'dist']);
 };
