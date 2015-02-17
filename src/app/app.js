@@ -34,7 +34,9 @@ angular.module('app', [
 
     // Main App Controller
     .controller('AppController', ['$scope', function($scope) {
-
+        $scope.refresh = function() {
+            window.location.reload(false);
+        }
     }])
 ;
 

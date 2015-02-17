@@ -13,6 +13,17 @@ body {
     font-size: 1rem;
 }
 
+a {
+    color: #4c98ae;
+}
+a:hover, a:active, a:visited {
+    color: #4c98ae;
+    text-decoration: none;
+}
+a:hover {
+    color: #5bb6d1;
+}
+
 .heading-logo {
     padding: 25px;
     font-size: 2rem;
