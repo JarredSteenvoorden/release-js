@@ -33,6 +33,13 @@ module.exports = function(grunt) {
                     { src: 'src/index.html', dest: 'dist/index.html' },
                     { expand: true, cwd: 'src/', src: 'assets/**', dest: 'dist/' }
                 ]
+            },
+
+            distfinal: {
+                files: [
+                    { src: '.tmp/concat/app/app.css', dest: 'dist/app/app.css' },
+                    { src: '.tmp/concat/app/app.js', dest: 'dist/app/app.js' }
+                ]
             }
         },
 
@@ -114,7 +121,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'dist/app/app.css': '.tmp/concat/app/app.css'
+                    '.tmp/concat/app/app.css': '.tmp/concat/app/app.css'
                 }
             }
         },
@@ -127,7 +134,7 @@ module.exports = function(grunt) {
                     enclose: true
                 },
                 files: {
-                    'dist/app/app.js': '.tmp/concat/app/app.js'
+                    '.tmp/concat/app/app.js': '.tmp/concat/app/app.js'
                 }
             }
         },
@@ -138,11 +145,36 @@ module.exports = function(grunt) {
                 options: {
                     patterns: [
                         { match: /..\/fonts/g, replacement: '../assets/fonts' },
-                        { match: /..\/..\/..\/assets/g, replacement: '../assets' }
+                        { match: /..\/..\/..\/assets/g, replacement: '../assets' },
                     ]
                 },
                 files: [
-                    { src: 'dist/app/app.css', dest: 'dist/app/app.css' }
+                    { src: '.tmp/concat/app/app.css', dest: '.tmp/concat/app/app.css' },
+                ]
+            },
+
+            gzip: {
+                options: {
+                    patterns: [
+                        { match: /app\/app.css/g, replacement: 'app/app.css.gz' },
+                        { match: /app\/app.js/g, replacement: 'app/app.js.gz' }
+                    ]
+                },
+                files: [
+                    { src: 'dist/index.html', dest: 'dist/index.html' }
+                ]
+            }
+        },
+
+        // Finaly gzip js and css files ready for amazon s3
+        compress: {
+            gzip: {
+                options: {
+                    mode: 'gzip'
+                },
+                files: [
+                    { src: '.tmp/concat/app/app.css', dest: 'dist/app/app.css.gz' },
+                    { src: '.tmp/concat/app/app.js', dest: 'dist/app/app.js.gz' }
                 ]
             }
         }
@@ -159,10 +191,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-usemin');
     grunt.loadNpmTasks('grunt-replace');
+    grunt.loadNpmTasks('grunt-contrib-compress');
 
     grunt.registerTask('vendor', ['clean:vendor', 'bower:vendor', 'copy:vendor', 'wiredep:vendor']);
     grunt.registerTask('dev', ['ngtemplates:dev', 'includeSource:dev']);
-    grunt.registerTask('dist', ['clean:dist', 'copy:dist', 'useminPrepare', 'concat:generated', 'cssmin:dist', 'uglify:dist', 'usemin', 'replace:dist']);
+    grunt.registerTask('dist', ['clean:dist', 'copy:dist', 'useminPrepare', 'concat:generated', 'cssmin:dist', 'uglify:dist', 'usemin', 'replace:dist', 'copy:distfinal']);
+    grunt.registerTask('gzip', ['compress:gzip', 'replace:gzip']);
 
     grunt.registerTask('default', ['vendor', 'dev', 'dist']);
 };
