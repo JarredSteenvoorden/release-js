@@ -1,7 +1,7 @@
 ﻿<div class="movie-list">
     <div class="movie" ng-repeat="movie in movies">
 
-        <div class="pull-left" bs-tooltip="movie.getPosterTooltip()">
+        <div class="movie-container-left" bs-tooltip="movie.getPosterTooltip()">
             <div class="movie-poster" ng-class="{'movie-poster-none': !movie.posterImage}" ng-style="movie.posterImage ? {'background-image': 'url(' + movie.posterImage + ')'} : {}"></div>
             <div class="movie-ratings">
                 <a class="movie-rating" ng-class="movie.getTomatoStyle()" ng-href="{{movie.getTomatoLink()}}" target="_blank">{{movie.getTomatoMeter()}}</a>

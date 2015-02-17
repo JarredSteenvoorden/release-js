@@ -27,7 +27,8 @@ angular.module('app', [
         angular.extend($tooltipProvider.defaults, {
             animation: 'am-fade-and-scale',
             placement: 'right',
-            html: true
+            html: true,
+            delay: '200'
         })
     }])
 

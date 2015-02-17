@@ -1,3 +1,7 @@
+html {
+    font-size: 13px;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -5,12 +9,13 @@ body {
     font-family: Tahoma, Arial, Helvetica, sans-serif;
 
     background-color: #232d33;
-    color: white;
+    color: #e9ffff;
+    font-size: 1rem;
 }
 
 .heading-logo {
-    padding: 20px;
-    font-size: 24px;
+    padding: 25px;
+    font-size: 2rem;
 }
 
 .main-content {
@@ -24,12 +29,16 @@ body {
 .tooltip {
     opacity: 1 !important;
     margin-right: 0;
+    font-size: 1em;
 }
     .tooltip-inner {
-        width: 220px;
-        max-width: 220px;
+        width: 280px;
+        max-width: 280px;
         padding: 15px 15px 1px;
         border-radius: 0;
 
         text-align: left;
+    }
+    .tooltip-inner p {
+        margin: 0 0 14px;
     }

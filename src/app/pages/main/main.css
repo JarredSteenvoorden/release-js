@@ -6,13 +6,12 @@
     position: relative;
 
     display: inline-block;
-    width: 360px;
-    height: 200px;
+    width: 450px;
+    height: 250px;
 
     margin: 5px;
-    padding: 15px;
+    padding: 20px;
 
-    font-size: 75%;
     text-align: left;
     vertical-align: top;
 
@@ -22,47 +21,50 @@
         background-color: #435C6B;
     }
 
-    .movie-poster {
-        background-size: auto 100%;
-        background-repeat: no-repeat;
-        background-position-x: center;
-
-        width: 100px;
-        height: 150px;
-        margin-right: 10px;
+    .movie-container-left {
+        float: left;
+        margin-right: 20px;
     }
-        .movie-poster-none {
-            background-image: url("../../../assets/poster.png");
+        .movie-poster {
+            background-size: auto 100%;
+            background-repeat: no-repeat;
+            background-position-x: center;
+
+            width: 120px;
+            height: 185px;
+        }
+            .movie-poster-none {
+                background-image: url("../../../assets/poster.png");
+                opacity: 0.8;
+            }
+
+        .movie-rating {
+            float: left;
+
+            width: 60px;
+            height: 25px;
+            line-height: 25px;
+
+            text-align: center;
+            color: black;
             opacity: 0.8;
         }
-
-    .movie-rating {
-        float: left;
-
-        width: 50px;
-        height: 20px;
-        line-height: 20px;
-
-        text-align: center;
-        color: black;
-        opacity: 0.8;
-    }
-        .movie-rating:hover, .movie-rating:active, .movie-rating:visited, .movie-rating:link {
-            text-decoration: none;
-            color: black;
-        }
-        .rating-green {
-            background-color: #AAFFAA;
-        }
-        .rating-orange {
-            background-color: #FFFFAA;
-        }
-        .rating-red {
-            background-color: #FFAAAA;
-        }
+            .movie-rating:hover, .movie-rating:active, .movie-rating:visited, .movie-rating:link {
+                text-decoration: none;
+                color: black;
+            }
+            .rating-green {
+                background-color: #AAFFAA;
+            }
+            .rating-orange {
+                background-color: #FFFFAA;
+            }
+            .rating-red {
+                background-color: #FFAAAA;
+            }
 
     .movie-title {
-        font-size: 150%;
+        font-size: 1.4rem;
     }
 
     .movie-info {

@@ -16,12 +16,8 @@ angular.module('app.shared')
         });
 
         return {
-            load: function(title, year, imdbId) {
+            get: function(search) {
                 var deferred = $q.defer();
-
-                var search = !angular.isNullOrWhitespace(imdbId) ?
-                    'i=' + imdbId :
-                    't=' + title + '&y=' + year;
 
                 $http.get('http://www.omdbapi.com/?' + search + '&tomatoes=true&type=movie&plot=short&r=json',
                     { cache: DSCacheFactory.get(cacheName) })
@@ -29,40 +25,74 @@ angular.module('app.shared')
                         deferred.resolve(data);
                     })
                     .error(function(data, status, headers, config) {
-                        // log error
+                        deferred.resolve();
                     });
 
                 return deferred.promise;
             },
 
+            getByTitle: function(title, year) {
+                return this.get('t=' + title + '&y=' + year);
+            },
+
+            getByImdbId: function(imdbId) {
+                return this.get('i=' + imdbId);
+            },
+
+            populate: function(movie, data) {
+                // Cannot use IMDB poster images, give 403 when running outside of localhost
+                /*if (data.Poster != 'N/A')
+                 movie.posterImage = data.Poster;*/
+
+                movie.title = data.Title != 'N/A' ? data.Title : movie.title;
+                movie.genres = data.Genre;
+                movie.plot = data.Plot;
+
+                movie.imdbId = data.imdbID;
+                movie.imdbRating = data.imdbRating != 'N/A' ? data.imdbRating : movie.imdbRating;
+                movie.imdbVotes = data.imdbVotes;
+
+                movie.tomatoConsensus = data.tomatoConsensus != 'N/A' ? data.tomatoConsensus : movie.tomatoConsensus;
+                movie.tomatoMeter = data.tomatoMeter != 'N/A' ? data.tomatoMeter : movie.tomatoMeter;
+                movie.tomatoRating = data.tomatoRating != 'N/A' ? data.tomatoRating : movie.tomatoRating;
+                movie.tomatoReviews = data.tomatoReviews;
+                movie.tomatoUserRating = data.tomatoUserRating;
+                movie.tomatoUserReviews = data.tomatoUserReviews;
+
+                movie.tooltip = movie.plot;
+            },
+
             populateMovie: function(movie) {
-                this.load(movie.title, movie.year, movie.imdbId).then(function(data) {
-                    if (data.Response == 'True') {
+                var deferred = $q.defer();
+                var $this = this;
 
-                        // Cannot use IMDB poster images, give 403 when running outside of localhost
-                        /*if (data.Poster != 'N/A')
-                            movie.posterImage = data.Poster;*/
+                // Try getting the movie by it's title first
+                $this.getByTitle(movie.title, movie.year).then(function(data) {
+                    if (data && data.Response == 'True') {
 
-                        movie.title = data.Title != 'N/A' ? data.Title : movie.title;
-                        movie.genres = data.Genre;
-                        movie.plot = data.Plot;
-
-                        movie.imdbId = data.imdbID;
-                        movie.imdbRating = data.imdbRating != 'N/A' ? data.imdbRating : movie.imdbRating;
-                        movie.imdbVotes = data.imdbVotes;
-
-                        movie.tomatoConsensus = data.tomatoConsensus != 'N/A' ? data.tomatoConsensus : movie.tomatoConsensus;
-                        movie.tomatoMeter = data.tomatoMeter != 'N/A' ? data.tomatoMeter : movie.tomatoMeter;
-                        movie.tomatoRating = data.tomatoRating != 'N/A' ? data.tomatoRating : movie.tomatoRating;
-                        movie.tomatoReviews = data.tomatoReviews;
-                        movie.tomatoUserRating = data.tomatoUserRating;
-                        movie.tomatoUserReviews = data.tomatoUserReviews;
-
-                        movie.tooltip = movie.plot;
+                        $this.populate(movie, data);
+                        deferred.resolve(true);
                     } else {
-                        console.log('Lookup failed for: ' + movie.title + '. ' + data.Error);
+                        // Failed lookup using title, attempt with IMDB id
+                        console.log('Lookup failed for: "' + movie.title + '" using title, will try IMDB Id. ' + data.Error);
+                        if (!angular.isNullOrWhitespace(movie.imdbId)) {
+                            $this.getByImdbId(movie.imdbId).then(function(data) {
+                                if (data && data.Response == 'True') {
+
+                                    $this.populate(movie, data);
+                                    deferred.resolve(true);
+                                } else {
+                                    console.log('Lookup failed for: "' + movie.title + '" using IMDB Id. ' + data.Error);
+                                    data.resolve(false);
+                                }
+                            });
+                        }
+                        else
+                            data.resolve(false);
                     }
                 });
+
+                return deferred.promise;
             }
         };
     }]);
