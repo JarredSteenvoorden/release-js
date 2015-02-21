@@ -4,13 +4,11 @@
 
 .movie {
     position: relative;
-
     display: inline-block;
-    width: 450px;
-    height: 250px;
+    width: 460px;
+    height: 260px;
 
     margin: 5px;
-    padding: 20px;
 
     text-align: left;
     vertical-align: top;
@@ -30,39 +28,17 @@
             background-repeat: no-repeat;
             background-position-x: center;
 
-            width: 120px;
-            height: 185px;
+            width: 165px;
+            height: 260px;
         }
             .movie-poster-none {
                 background-image: url("../../../assets/poster.png");
                 opacity: 0.8;
             }
 
-        .movie-rating {
-            float: left;
-
-            width: 60px;
-            height: 25px;
-            line-height: 25px;
-
-            text-align: center;
-            color: black;
-            opacity: 0.8;
-        }
-            .movie-rating:hover, .movie-rating:active, .movie-rating:visited, .movie-rating:link {
-                text-decoration: none;
-                color: black;
-            }
-            .rating-green {
-                background-color: #AAFFAA;
-            }
-            .rating-orange {
-                background-color: #FFFFAA;
-            }
-            .rating-red {
-                background-color: #FFAAAA;
-            }
-
+    .movie-container-right {
+        margin: 20px;
+    }
     .movie-title {
         font-size: 1.4rem;
     }
@@ -73,6 +49,37 @@
 
     .movie-plot {
     }
+
+    .movie-ratings {
+        position: absolute;
+        bottom: 20px;
+        left: 185px;
+    }
+
+    .movie-rating {
+        float: left;
+
+        width: 60px;
+        height: 25px;
+        line-height: 25px;
+
+        text-align: center;
+        color: black;
+        opacity: 0.8;
+    }
+        .movie-rating:hover, .movie-rating:active, .movie-rating:visited, .movie-rating:link {
+            text-decoration: none;
+            color: black;
+        }
+        .rating-green {
+            background-color: #AAFFAA;
+        }
+        .rating-orange {
+            background-color: #FFFFAA;
+        }
+        .rating-red {
+            background-color: #FFAAAA;
+        }
 
     .movie-quality {
         position: absolute;

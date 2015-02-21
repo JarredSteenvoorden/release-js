@@ -37,8 +37,8 @@ module.exports = function(grunt) {
 
             distfinal: {
                 files: [
-                    { src: '.tmp/concat/app/app.css', dest: 'dist/app/app.css' },
-                    { src: '.tmp/concat/app/app.js', dest: 'dist/app/app.js' }
+                    { src: '.tmp/concat/app.css', dest: 'dist/app.css' },
+                    { src: '.tmp/concat/app.js', dest: 'dist/app.js' }
                 ]
             }
         },
@@ -121,7 +121,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    '.tmp/concat/app/app.css': '.tmp/concat/app/app.css'
+                    '.tmp/concat/app.css': '.tmp/concat/app.css'
                 }
             }
         },
@@ -134,7 +134,7 @@ module.exports = function(grunt) {
                     enclose: true
                 },
                 files: {
-                    '.tmp/concat/app/app.js': '.tmp/concat/app/app.js'
+                    '.tmp/concat/app.js': '.tmp/concat/app.js'
                 }
             }
         },
@@ -149,15 +149,15 @@ module.exports = function(grunt) {
                     ]
                 },
                 files: [
-                    { src: '.tmp/concat/app/app.css', dest: '.tmp/concat/app/app.css' },
+                    { src: '.tmp/concat/app.css', dest: '.tmp/concat/app.css' },
                 ]
             },
 
             gzip: {
                 options: {
                     patterns: [
-                        { match: /app\/app.css/g, replacement: 'app/app.css.gz' },
-                        { match: /app\/app.js/g, replacement: 'app/app.js.gz' }
+                        { match: /app.css/g, replacement: 'app.css.gz' },
+                        { match: /app.js/g, replacement: 'app.js.gz' }
                     ]
                 },
                 files: [
@@ -173,8 +173,8 @@ module.exports = function(grunt) {
                     mode: 'gzip'
                 },
                 files: [
-                    { src: '.tmp/concat/app/app.css', dest: 'dist/app/app.css.gz' },
-                    { src: '.tmp/concat/app/app.js', dest: 'dist/app/app.js.gz' }
+                    { src: '.tmp/concat/app.css', dest: 'dist/app.css.gz' },
+                    { src: '.tmp/concat/app.js', dest: 'dist/app.js.gz' }
                 ]
             }
         }
