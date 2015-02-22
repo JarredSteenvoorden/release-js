@@ -32,6 +32,7 @@ module.exports = function(grunt) {
                 files: [
                     { src: 'src/index.html', dest: 'dist/index.html' },
                     { expand: true, cwd: 'src/', src: 'assets/**', dest: 'dist/'},
+                    { src: 'src/vendor/components-font-awesome/fonts/fontawesome-webfont.woff', dest: 'dist/assets/fonts/fontawesome-webfont.woff' },
                     { src: 'src/vendor/components-font-awesome/fonts/fontawesome-webfont.woff2', dest: 'dist/assets/fonts/fontawesome-webfont.woff2' }
                 ]
             },
