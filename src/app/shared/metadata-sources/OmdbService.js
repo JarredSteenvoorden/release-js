@@ -7,7 +7,7 @@ angular.module('app.shared')
     .service('OmdbService', ['$q', '$http', 'DSCacheFactory', function ($q, $http, DSCacheFactory) {
         var cacheName = 'OmdbCache';
 
-        DSCacheFactory(cacheName, {
+        var cache = DSCacheFactory(cacheName, {
             capacity: 500,                  // Store a maximum of 500 responses
             maxAge: 24 * 60 * 60 * 1000,    // Items added to this cache expire after 1 day.
             setRecycleFreq: 60 * 60 * 1000, // Check for expired items every hour
@@ -19,24 +19,38 @@ angular.module('app.shared')
             get: function(search) {
                 var deferred = $q.defer();
 
-                $http.get('http://www.omdbapi.com/?' + search + '&tomatoes=true&type=movie&plot=short&r=json',
-                    { cache: DSCacheFactory.get(cacheName) })
+                var cache = DSCacheFactory.get(cacheName);
+
+                var url = 'http://www.omdbapi.com/?' + search + '&tomatoes=true&type=movie&plot=short&r=json';
+                var lastSuccess = cache.get(url);
+
+                $http.get(url, { cache: cache })
                     .success(function (data) {
                         deferred.resolve(data);
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.resolve();
+
+                        if (lastSuccess) {
+                            // If last request before cache expired was a success, use it instead and add back into cache
+                            cache.add(url, lastSuccess);
+                            deferred.resolve(lastSuccess[1]);
+                        }
+                        else {
+                            // Remove request from cache if it caused an error
+                            cache.remove(url);
+                            deferred.resolve();
+                        }
                     });
 
                 return deferred.promise;
             },
 
             getByTitle: function(title, year) {
-                return this.get('t=' + title + '&y=' + year);
+                return this.get('t=' + encodeURIComponent(title) + '&y=' + encodeURIComponent(year));
             },
 
             getByImdbId: function(imdbId) {
-                return this.get('i=' + imdbId);
+                return this.get('i=' + encodeURIComponent(imdbId));
             },
 
             populate: function(movie, data) {
@@ -68,28 +82,33 @@ angular.module('app.shared')
 
                 // Try getting the movie by it's title first
                 $this.getByTitle(movie.title, movie.year).then(function(data) {
-                    if (data && data.Response == 'True') {
+                    if (data) {
+                        if (data.Response == 'True') {
 
-                        $this.populate(movie, data);
-                        deferred.resolve(true);
-                    } else {
-                        // Failed lookup using title, attempt with IMDB id
-                        console.log('Lookup failed for: "' + movie.title + '" using title, will try IMDB Id. ' + data.Error);
-                        if (!angular.isNullOrWhitespace(movie.imdbId)) {
-                            $this.getByImdbId(movie.imdbId).then(function(data) {
-                                if (data && data.Response == 'True') {
+                            $this.populate(movie, data);
+                            deferred.resolve(true);
+                        } else {
+                            // Failed lookup using title, attempt with IMDB id
+                            console.log('Lookup failed for: "' + movie.title + '" using title, will try IMDB Id. ' + data.Error);
+                            if (!angular.isNullOrWhitespace(movie.imdbId)) {
+                                $this.getByImdbId(movie.imdbId).then(function(data) {
+                                    if (data) {
+                                        if (data.Response == 'True') {
 
-                                    $this.populate(movie, data);
-                                    deferred.resolve(true);
-                                } else {
-                                    console.log('Lookup failed for: "' + movie.title + '" using IMDB Id. ' + data.Error);
-                                    data.resolve(false);
-                                }
-                            });
+                                            $this.populate(movie, data);
+                                            deferred.resolve(true);
+                                        } else {
+                                            console.log('Lookup failed for: "' + movie.title + '" using IMDB Id. ' + data.Error);
+                                            deferred.resolve(false);
+                                        }
+                                    } else
+                                        deferred.resolve(false);
+                                });
+                            } else
+                                deferred.resolve(false);
                         }
-                        else
-                            data.resolve(false);
-                    }
+                    } else
+                        deferred.resolve(false);
                 });
 
                 return deferred.promise;

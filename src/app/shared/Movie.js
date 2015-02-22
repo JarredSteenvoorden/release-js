@@ -25,6 +25,9 @@ angular.module('app.shared')
                 this.source = extraInfo.length >= 2 ? extraInfo[extraInfo.length - 2] : '';
                 this.encoding = extraInfo.length >= 1 ? extraInfo[extraInfo.length - 1] : '';
                 this.releaseGroup = regexResult[4];
+
+                // Quality descriptions
+                //http://www.thenerdmachine.com/community/topic/10851-the-all-formats-bible-guide/
             }
             else
                 this.title = releaseName;

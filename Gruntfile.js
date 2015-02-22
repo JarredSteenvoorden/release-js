@@ -23,7 +23,7 @@ module.exports = function(grunt) {
         copy: {
             vendor: {
                 files: [
-                    { src: 'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2', dest: 'src/vendor/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2' },
+                    { src: 'bower_components/components-font-awesome/fonts/fontawesome-webfont.woff2', dest: 'src/vendor/components-font-awesome/fonts/fontawesome-webfont.woff2' },
                     { src: 'bower_components/bootstrap/dist/css/bootstrap.css.map', dest: 'src/vendor/bootstrap/dist/css/bootstrap.css.map' }
                 ]
             },
@@ -31,7 +31,8 @@ module.exports = function(grunt) {
             dist: {
                 files: [
                     { src: 'src/index.html', dest: 'dist/index.html' },
-                    { expand: true, cwd: 'src/', src: 'assets/**', dest: 'dist/' }
+                    { expand: true, cwd: 'src/', src: 'assets/**', dest: 'dist/'},
+                    { src: 'src/vendor/components-font-awesome/fonts/fontawesome-webfont.woff2', dest: 'dist/assets/fonts/fontawesome-webfont.woff2' }
                 ]
             },
 
@@ -144,8 +145,8 @@ module.exports = function(grunt) {
             dist: {
                 options: {
                     patterns: [
-                        { match: /..\/fonts/g, replacement: '../assets/fonts' },
-                        { match: /..\/..\/..\/assets/g, replacement: '../assets' },
+                        { match: /..\/fonts/g, replacement: 'assets/fonts' },
+                        { match: /..\/..\/..\/assets/g, replacement: 'assets' },
                     ]
                 },
                 files: [

@@ -20,8 +20,11 @@
     }
 
     .movie-container-left {
+        position: relative;
         float: left;
         margin-right: 20px;
+
+        cursor: pointer;
     }
         .movie-poster {
             background-size: auto 100%;
@@ -31,9 +34,39 @@
             width: 165px;
             height: 260px;
         }
+            .movie-container-left:hover .movie-poster {
+                opacity: 0.5;
+                transition: all 0.2s;
+            }
             .movie-poster-none {
                 background-image: url("../../../assets/poster.png");
                 opacity: 0.8;
+            }
+
+        .movie-trailer-button {
+            position: absolute;
+            top: 0;
+            left: 0;
+            visibility: hidden;
+            opacity: 0;
+
+            width: 100%;
+            line-height: 260px;
+            text-align: center;
+
+            font-size: 1em;
+        }
+            .movie:hover .movie-trailer-button {
+                visibility: visible;
+                opacity: 0.5;
+
+                font-size: 4em;
+                transition: all 0.1s;
+            }
+            .movie-container-left:hover .movie-trailer-button {
+                opacity: 1;
+                font-size: 5em;
+                transition: all 0.1s;
             }
 
     .movie-container-right {
@@ -86,3 +119,49 @@
         bottom: 20px;
         right: 20px;
     }
+
+    .movie-trailer-container {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+
+        background-color: #000000;
+    }
+        .movie-trailer {
+            width: 100%;
+            height: 100%;
+        }
+
+        .movie-trailer-header {
+            position: absolute;
+            top: 0; left: 0;
+            visibility: hidden;
+            padding: 10px;
+
+            width: 100%;
+            opacity: 0;
+            background-color: #000000;
+        }
+            .movie-trailer-container:hover .movie-trailer-header {
+                visibility: visible;
+                opacity: 1;
+                transition: all 0.5s;
+            }
+
+            .movie-trailer-title {
+                float: left;
+                font-size: 1.4rem;
+            }
+
+            .movie-trailer-close {
+                float: right;
+                cursor: pointer;
+
+                font-size: 2em;
+            }
+                .movie-trailer-close:hover {
+                    color: red;
+                    transition: all 0.5s;
+                }

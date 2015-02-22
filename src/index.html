@@ -9,6 +9,7 @@
     <link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     <link href="vendor/angular-motion/dist/angular-motion.css" rel="stylesheet" />
     <link href="vendor/bootstrap-additions/dist/bootstrap-additions.min.css" rel="stylesheet" />
+    <link href="vendor/components-font-awesome/css/font-awesome.css" rel="stylesheet" />
     <!-- endbower -->
 
     <!-- App Stylesheets -->
@@ -26,6 +27,11 @@
 
         ga('create', 'UA-59804535-1', 'auto');
         ga('send', 'pageview');
+
+        function googleApiClientReady() {
+            gapi.client.setApiKey('AIzaSyCi3j9pLx8W_XxD1yZV-zrW0tfGhn17m9s');
+            gapi.client.load('youtube', 'v3');
+        }
     </script>
 </head>
 <body>
@@ -64,5 +70,6 @@
     <script src="app/templates.js"></script>
     <!-- /include -->
     <!-- endbuild -->
+    <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
 </body>
 </html>
