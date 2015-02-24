@@ -33,10 +33,11 @@
 
             width: 165px;
             height: 260px;
+            transition: all 0.5s;
         }
             .movie-container-left:hover .movie-poster {
                 opacity: 0.5;
-                transition: all 0.2s;
+                transition: all 0.5s;
             }
             .movie-poster-none {
                 background-image: url("../../../assets/poster.png");
@@ -55,18 +56,19 @@
             text-align: center;
 
             font-size: 1em;
+            transition: all 0.3s;
         }
             .movie:hover .movie-trailer-button {
                 visibility: visible;
                 opacity: 0.5;
 
                 font-size: 4em;
-                transition: all 0.1s;
+                transition: all 0.3s;
             }
             .movie-container-left:hover .movie-trailer-button {
                 opacity: 1;
                 font-size: 5em;
-                transition: all 0.1s;
+                transition: all 0.3s;
             }
 
     .movie-container-right {
@@ -96,6 +98,7 @@
         height: 25px;
         line-height: 25px;
 
+        border-radius: 0 25px;
         text-align: center;
         color: black;
         opacity: 0.8;
@@ -118,7 +121,15 @@
         position: absolute;
         bottom: 20px;
         right: 20px;
+
+        line-height: 25px;
+        cursor: pointer;
+        transition: all 0.5s;
     }
+        .movie-quality:hover {
+            color: #5bb6d1;
+            transition: all 0.5s;
+        }
 
     .movie-trailer-container {
         position: absolute;
@@ -143,6 +154,7 @@
             width: 100%;
             opacity: 0;
             background-color: #000000;
+            transition: all 0.5s;
         }
             .movie-trailer-container:hover .movie-trailer-header {
                 visibility: visible;
@@ -160,6 +172,7 @@
                 cursor: pointer;
 
                 font-size: 2em;
+                transition: all 0.5s;
             }
                 .movie-trailer-close:hover {
                     color: red;

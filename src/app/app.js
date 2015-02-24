@@ -23,6 +23,14 @@ angular.module('app', [
             .otherwise( '/main' );
     }])
 
+    // Modal display options
+    .config(['$modalProvider', function($modalProvider) {
+        angular.extend($modalProvider.defaults, {
+            animation: 'am-fade',
+            placement: 'center'
+        });
+    }])
+
     .config(['$tooltipProvider', function($tooltipProvider) {
         angular.extend($tooltipProvider.defaults, {
             animation: 'am-fade-and-scale',

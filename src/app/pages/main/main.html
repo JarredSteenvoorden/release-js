@@ -16,7 +16,7 @@
             <a class="movie-rating" ng-class="movie.getTomatoStyle()" ng-href="{{movie.getTomatoLink()}}" target="_blank">{{movie.getTomatoMeter()}}</a>
             <a class="movie-rating" ng-class="movie.getImdbStyle()" ng-href="{{movie.getImdbLink()}}" target="_blank">{{movie.getImdbRating()}}</a>
         </div>
-        <div class="movie-quality">{{movie.getQuality()}}</div>
+        <div class="movie-quality" ng-click="showDownloadModal()"><i class="fa fa-cloud-download"></i> {{movie.getQuality()}}</div>
 
         <div class="movie-trailer-container">
             <div class="movie-trailer-header">

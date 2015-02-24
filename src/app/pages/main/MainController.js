@@ -2,7 +2,7 @@
 //http://cacodaemon.de/index.php?id=51
 
 angular.module('app.pages')
-    .controller('MainController', ['$scope', 'MovieList', function($scope, MovieList) {
+    .controller('MainController', ['$scope', '$modal', 'MovieList', function($scope, $modal, MovieList) {
         $scope.movies = MovieList.movies;
 
         MovieList.load();
@@ -39,6 +39,11 @@ angular.module('app.pages')
                     trailerContainer.show();
                 }
             });
+        };
+
+        var downloadModal = $modal({scope: $scope, template: 'download_modal.html', show: false});
+        $scope.showDownloadModal = function() {
+            downloadModal.$promise.then(downloadModal.show);
         };
     }])
 ;

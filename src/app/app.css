@@ -15,14 +15,16 @@ body {
 
 a {
     color: #4c98ae;
+    transition: all 0.5s;
 }
-a:hover, a:active, a:visited {
-    color: #4c98ae;
-    text-decoration: none;
-}
-a:hover {
-    color: #5bb6d1;
-}
+    a:hover, a:active, a:visited {
+        color: #4c98ae;
+        text-decoration: none;
+    }
+    a:hover {
+        color: #5bb6d1;
+        transition: all 0.5s;
+    }
 
 .heading-logo {
     padding: 25px;
@@ -33,11 +35,49 @@ a:hover {
     margin-bottom: 80px;
 }
 
-/* Fix bootstrap elements */
+/* Modal styles */
 .modal-backdrop {
+    position: fixed;
     bottom: 0;
+    z-index: 100;
 }
 
+.modal {
+    z-index: 101;
+}
+
+.modal-content {
+    background-color: #232d33;
+    color: #e9ffff;
+}
+
+.modal-header {
+    border: 0;
+}
+
+    .modal-title {
+        margin: 0;
+        font-size: 1.4em;
+        line-height: 1.4em;
+    }
+
+    .modal-close {
+        float: right;
+        cursor: pointer;
+
+        font-size: 2em;
+        transition: all 0.5s;
+    }
+        .modal-close:hover {
+            color: red;
+            transition: all 0.5s;
+        }
+
+.modal-content {
+    border-radius: 0;
+}
+
+/* Tooltip styles */
 .tooltip {
     opacity: 1 !important;
     margin-right: 0;
@@ -54,5 +94,3 @@ a:hover {
     .tooltip-inner p {
         margin: 0 0 14px;
     }
-
-/* Off canvas fun */
