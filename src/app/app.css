@@ -46,12 +46,30 @@ a {
     z-index: 101;
 }
 
+.modal-dialog {
+    min-width: 0 !important;
+    max-width: 100% !important;
+
+    width: calc(100% - 40px) !important;
+    height: calc(100% - 40px) !important;
+
+    top: 0 !important;
+    left: 0 !important;
+    margin: 20px !important;
+
+    transform: none !important;
+}
+
 .modal-content {
+    height: 100%;
+
+    border-radius: 0;
     background-color: #232d33;
     color: #e9ffff;
 }
 
 .modal-header {
+    height: 60px;
     border: 0;
 }
 
@@ -73,8 +91,9 @@ a {
             transition: all 0.5s;
         }
 
-.modal-content {
-    border-radius: 0;
+.modal-body {
+    height: calc(100% - 60px);
+    padding: 0 15px 15px;
 }
 
 /* Tooltip styles */

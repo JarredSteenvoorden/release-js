@@ -8,7 +8,7 @@
     width: 460px;
     height: 260px;
 
-    margin: 5px;
+    margin: 7px;
 
     text-align: left;
     vertical-align: top;
@@ -98,7 +98,7 @@
         height: 25px;
         line-height: 25px;
 
-        border-radius: 0 25px;
+        border-radius: 25px 0;
         text-align: center;
         color: black;
         opacity: 0.8;
@@ -178,3 +178,32 @@
                     color: red;
                     transition: all 0.5s;
                 }
+
+.download-site {
+    float: left;
+    padding: 0 10px;
+    height: 25px;
+
+    line-height: 25px;
+    font-size: 1.1rem;
+
+    cursor: pointer;
+    transition: all 0.5s;
+}
+    .download-site:hover {
+        color: #5bb6d1;
+        transition: all 0.5s;
+    }
+
+.download-iframe {
+    width: 100%;
+    height: calc(100% - 35px);
+
+    margin-top: 10px;
+
+    border: 0;
+    background-color: #ffffff;
+
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateZ(0) scale(1.0, 1.0);
+}

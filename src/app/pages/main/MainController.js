@@ -17,7 +17,9 @@ angular.module('app.pages')
             var movieElement = angular.element(event.currentTarget).closest('.movie');
             var trailerContainer = angular.element(movieElement[0].querySelector('.movie-trailer-container'));
 
+            // Close existing trailer
             $scope.closeTrailers();
+            trailerContainer.show();
 
             // Search youtube for trailer
             var searchQuery = movie.title + ' ' + movie.year + ' trailer';
@@ -36,13 +38,16 @@ angular.module('app.pages')
                 {
                     var videoId = searchResults[0].id.videoId;
                     trailerContainer.prepend('<iframe class="movie-trailer" type="text/html" src="http://www.youtube.com/embed/' + videoId + '?autoplay=1&fs=1&rel=0&showinfo=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>');
-                    trailerContainer.show();
                 }
             });
         };
 
-        var downloadModal = $modal({scope: $scope, template: 'download_modal.html', show: false});
-        $scope.showDownloadModal = function() {
+        $scope.showDownloadModal = function(movie) {
+
+            var scope = $scope.$new();
+            scope.movie = movie;
+            var downloadModal = $modal({scope: scope, template: 'download_modal.html', show: false});
+
             downloadModal.$promise.then(downloadModal.show);
         };
     }])
