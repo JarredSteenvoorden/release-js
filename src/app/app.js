@@ -27,6 +27,7 @@ angular.module('app', [
     .config(['$modalProvider', function($modalProvider) {
         angular.extend($modalProvider.defaults, {
             animation: 'am-fade',
+            backdropAnimation: 'am-fade',
             placement: 'center'
         });
     }])

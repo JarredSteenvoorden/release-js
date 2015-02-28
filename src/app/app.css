@@ -27,6 +27,7 @@ a {
     }
 
 .heading-logo {
+    float: left;
     padding: 25px;
     font-size: 2rem;
 }
@@ -46,7 +47,9 @@ a {
     z-index: 101;
 }
 
-.modal-dialog {
+.modal-lg {
+    position: inherit !important;
+
     min-width: 0 !important;
     max-width: 100% !important;
 
@@ -57,6 +60,7 @@ a {
     left: 0 !important;
     margin: 20px !important;
 
+    -webkit-transform: none !important;
     transform: none !important;
 }
 

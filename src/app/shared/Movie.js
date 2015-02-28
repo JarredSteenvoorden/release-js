@@ -20,7 +20,7 @@ angular.module('app.shared')
                 this.year = regexResult[2].trim();
 
                 // Release info
-                var extraInfo = regexResult[3].replace('LIMITED', '').trim().split(' ');
+                var extraInfo = regexResult[3].replace('LIMITED', '').replace('LiMiTED', '').trim().split(' ');
                 this.quality = extraInfo.length >= 3 ? extraInfo[extraInfo.length - 3] : '';
                 this.source = extraInfo.length >= 2 ? extraInfo[extraInfo.length - 2] : '';
                 this.encoding = extraInfo.length >= 1 ? extraInfo[extraInfo.length - 1] : '';
@@ -28,6 +28,8 @@ angular.module('app.shared')
 
                 // Quality descriptions
                 //http://www.thenerdmachine.com/community/topic/10851-the-all-formats-bible-guide/
+
+                this.releaseSearch = this.title + ' ' + this.year + ' ' + this.getQuality();
             }
             else
                 this.title = releaseName;
@@ -53,12 +55,24 @@ angular.module('app.shared')
             return !angular.isNullOrWhitespace(this.tomatoMeter) ? this.tomatoMeter : '-';
         };
 
+        Movie.prototype.getImdbRatingNormalised = function () {
+            return angular.isNullOrWhitespace(this.imdbRating) ? 0 : parseInt(this.imdbRating) * 10;
+        };
+
+        Movie.prototype.getTomatoMeterNormalised = function () {
+            return angular.isNullOrWhitespace(this.tomatoMeter) ? 0 : parseInt(this.tomatoMeter);
+        };
+
+        Movie.prototype.getHighestRating = function () {
+            return Math.max(this.getImdbRatingNormalised(), this.getTomatoMeterNormalised());
+        };
+
         Movie.prototype.getImdbStyle = function () {
-            return ratingToStyle(this.imdbRating, 10);
+            return ratingToStyle(this.getImdbRatingNormalised());
         };
 
         Movie.prototype.getTomatoStyle = function () {
-            return ratingToStyle(this.tomatoMeter);
+            return ratingToStyle(this.getTomatoMeterNormalised());
         };
 
         Movie.prototype.getImdbLink = function () {
@@ -87,14 +101,7 @@ angular.module('app.shared')
         /**
          * Private functions
          */
-        function ratingToStyle(rating, multiplier) {
-            multiplier = typeof multiplier !== 'undefined' ? multiplier : 1;
-
-            if (angular.isNullOrWhitespace(rating))
-                return 'rating-red';
-
-            rating = parseInt(rating) * multiplier;
-
+        function ratingToStyle(rating) {
             if (rating >= 70)
                 return 'rating-green';
             if (rating >= 50)

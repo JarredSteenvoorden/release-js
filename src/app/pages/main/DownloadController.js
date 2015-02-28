@@ -4,7 +4,7 @@ angular.module('app.pages')
     .controller('DownloadController', ['$scope', '$sce', function($scope, $sce) {
         $scope.movie = $scope.$parent.$parent.movie;
 
-        var searchQuery = encodeURIComponent($scope.movie.title + " " + $scope.movie.year + " " + $scope.movie.quality);
+        var searchQuery = encodeURIComponent($scope.movie.releaseSearch);
 
         $scope.kickassSearchUrl = "https://kickass.to/usearch/" + searchQuery;
         $scope.extraTorrentUrl = "http://extratorrent.cc/search/?search=" + searchQuery;
@@ -13,7 +13,7 @@ angular.module('app.pages')
 
         $scope.trustSrc = function(src) {
             return $sce.trustAsResourceUrl(src);
-        }
+        };
 
         $scope.shownSite = 0;
         $scope.showSite = function(number) {

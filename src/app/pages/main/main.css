@@ -14,9 +14,11 @@
     vertical-align: top;
 
     background-color: #30414A;
+    /*transition: background-color 0.5s;*/
 }
     .movie:hover {
         background-color: #435C6B;
+        transition: background-color 0.5s;
     }
 
     .movie-container-left {
@@ -51,9 +53,12 @@
             visibility: hidden;
             opacity: 0;
 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
             width: 100%;
-            line-height: 260px;
-            text-align: center;
+            height: 100%;
 
             font-size: 1em;
             transition: all 0.3s;
@@ -207,3 +212,33 @@
     -webkit-backface-visibility: hidden;
     -webkit-transform: translateZ(0) scale(1.0, 1.0);
 }
+
+.genre-list {
+    margin: 25px;
+    text-align: center;
+}
+
+    .genre {
+        display: inline-block;
+        margin: 5px;
+        padding: 5px;
+
+        width: 120px;
+
+        cursor: pointer;
+        background-color: #30414A;
+        transition: all 0.5s;
+    }
+        .genre:hover {
+            background-color: #435C6B;
+            transition: all 0.5s;
+        }
+
+.heading-options {
+    float: right;
+    margin: 25px;
+}
+    .selected-genre {
+        margin-left: 10px;
+        text-align: center;
+    }

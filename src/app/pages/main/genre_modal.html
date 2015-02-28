@@ -1,0 +1,16 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header clearfix">
+                <div class="modal-close fa fa-times" ng-click="$hide()"></div>
+                <h4 class="modal-title">Filter Movies</h4>
+                <div class="clear"></div>
+            </div>
+            <div class="modal-body">
+                <div class="genre-list clearfix">
+                    <div class="genre" ng-repeat="genre in genres" ng-click="selectGenre(genre)">{{genre.display}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
