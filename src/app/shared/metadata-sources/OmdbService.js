@@ -28,7 +28,9 @@ angular.module('app.shared')
                     .success(function (data) {
                         // Don't cache when search fails due to site / database errors (restore previous success)
                         // These seem to be common with OMDB :(
-                        if (data.Response != 'True' && data.Error.search(/movie not found/i) == -1) {
+                        if (angular.isUndefinedOrNull(data) || angular.isNullOrWhitespace(data.Response) ||
+                            (data.Response != 'True' && (angular.isNullOrWhitespace(data.Error) || data.Error.search(/movie not found/i) == -1)))
+                        {
                             cache.remove(url);
                             if (lastSuccess) {
                                 cache.add(url, lastSuccess);

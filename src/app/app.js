@@ -57,7 +57,12 @@ angular.isUndefinedOrNull = function(value) {
 };
 
 angular.isNullOrWhitespace = function(value) {
+    // Undefined or null
     if (angular.isUndefinedOrNull(value))
+        return true;
+
+    // Unexpected type (not a string)
+    if (typeof value != 'string' && !(value instanceof String))
         return true;
 
     return value.replace(/\s/g, '').length < 1;
