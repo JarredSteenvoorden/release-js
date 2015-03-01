@@ -1,4 +1,4 @@
-﻿<div class="heading-logo"><a href="#" ng-click="refresh()">release-js</a></div>
+﻿<div class="heading-logo"><a href="#" ng-click="refresh()">releasejs</a></div>
 <div class="heading-options">
     <div class="selected-genre genre" ng-click="showGenreModal()"><i class="fa fa-users"></i> {{selectedGenre.display}}</div>
     <div class="selected-genre genre" ng-click="showMinimumRatingModal()"><i class="fa fa-star"></i> {{selectedMinimumRating.display}}</div>
@@ -19,7 +19,11 @@
             <div class="movie-plot">{{movie.plot}}</div>
         </div>
 
-        <div class="movie-ratings" bs-tooltip="movie.getPosterTooltip()">
+        <div class="movie-loading" ng-show="movie.loading">
+            <i class="fa fa-spinner fa-pulse"></i>
+        </div>
+
+        <div class="movie-ratings" bs-tooltip="movie.getPosterTooltip()" ng-hide="movie.loading">
             <a class="movie-rating" ng-class="movie.getTomatoStyle()" ng-href="{{movie.getTomatoLink()}}" target="_blank">{{movie.getTomatoMeter()}}</a>
             <a class="movie-rating" ng-class="movie.getImdbStyle()" ng-href="{{movie.getImdbLink()}}" target="_blank">{{movie.getImdbRating()}}</a>
         </div>

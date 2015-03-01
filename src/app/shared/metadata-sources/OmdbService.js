@@ -26,20 +26,29 @@ angular.module('app.shared')
 
                 $http.get(url, { cache: cache })
                     .success(function (data) {
+                        // Don't cache when search fails due to site / database errors (restore previous success)
+                        // These seem to be common with OMDB :(
+                        if (data.Response != 'True' && data.Error.search(/movie not found/i) == -1) {
+                            cache.remove(url);
+                            if (lastSuccess) {
+                                cache.add(url, lastSuccess);
+                                data = lastSuccess[1];
+                            }
+                        }
+
                         deferred.resolve(data);
                     })
                     .error(function(data, status, headers, config) {
+                        var successData;
 
+                        // If last request before cache expired was a success, use it instead and add back into cache
+                        cache.remove(url);
                         if (lastSuccess) {
-                            // If last request before cache expired was a success, use it instead and add back into cache
                             cache.add(url, lastSuccess);
-                            deferred.resolve(lastSuccess[1]);
+                            successData = lastSuccess[1];
                         }
-                        else {
-                            // Remove request from cache if it caused an error
-                            cache.remove(url);
-                            deferred.resolve();
-                        }
+
+                        deferred.resolve(successData);
                     });
 
                 return deferred.promise;

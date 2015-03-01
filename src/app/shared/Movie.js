@@ -36,8 +36,14 @@ angular.module('app.shared')
         }
 
         Movie.prototype.lookupMetaData = function () {
+
             // Lookup movie meta data
-            OmdbService.populateMovie(this);
+            var $this = this;
+
+            $this.loading = true;
+            OmdbService.populateMovie(this).then(function() {
+                $this.loading = false;
+            });
         };
 
         /**
