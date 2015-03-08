@@ -6,7 +6,7 @@ angular.module('app.pages')
 
         var searchQuery = encodeURIComponent($scope.movie.releaseSearch);
 
-        $scope.kickassSearchUrl = "https://kickass.to/usearch/" + searchQuery;
+        $scope.kickassSearchUrl = "https://kickass.to/usearch/" + searchQuery + "/?field=time_add&sorder=desc";
         $scope.extraTorrentUrl = "http://extratorrent.cc/search/?search=" + searchQuery;
         $scope.dogNzbUrl = "http://dognzb.cr/search/" + searchQuery;
         $scope.nzbClubUrl = "http://www.nzbclub.com/search.aspx?q=" + searchQuery;

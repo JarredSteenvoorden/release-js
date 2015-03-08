@@ -33,7 +33,7 @@ angular.module('app.shared')
                         {
                             cache.remove(url);
                             if (lastSuccess) {
-                                cache.add(url, lastSuccess);
+                                cache.put(url, lastSuccess);
                                 data = lastSuccess[1];
                             }
                         }
@@ -46,7 +46,7 @@ angular.module('app.shared')
                         // If last request before cache expired was a success, use it instead and add back into cache
                         cache.remove(url);
                         if (lastSuccess) {
-                            cache.add(url, lastSuccess);
+                            cache.put(url, lastSuccess);
                             successData = lastSuccess[1];
                         }
 
@@ -83,8 +83,6 @@ angular.module('app.shared')
                 movie.tomatoReviews = data.tomatoReviews;
                 movie.tomatoUserRating = data.tomatoUserRating;
                 movie.tomatoUserReviews = data.tomatoUserReviews;
-
-                movie.tooltip = movie.plot;
             },
 
             populateMovie: function(movie) {
@@ -100,7 +98,7 @@ angular.module('app.shared')
                             deferred.resolve(true);
                         } else {
                             // Failed lookup using title, attempt with IMDB id
-                            console.log('Lookup failed for: "' + movie.title + '" using title, will try IMDB Id. ' + data.Error);
+                            console.log('OMDb lookup failed for ' + movie.title + ' with year ' + movie.year + '. Will try IMDB Id. ' + data.Error);
                             if (!angular.isNullOrWhitespace(movie.imdbId)) {
                                 $this.getByImdbId(movie.imdbId).then(function(data) {
                                     if (data) {
@@ -109,7 +107,7 @@ angular.module('app.shared')
                                             $this.populate(movie, data);
                                             deferred.resolve(true);
                                         } else {
-                                            console.log('Lookup failed for: "' + movie.title + '" using IMDB Id. ' + data.Error);
+                                            console.log('OMDb lookup failed for ' + movie.title + ' using IMDB Id ' + movie.imdbId + '. ' + data.Error);
                                             deferred.resolve(false);
                                         }
                                     } else

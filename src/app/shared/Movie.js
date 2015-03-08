@@ -2,7 +2,7 @@
 //https://medium.com/opinionated-angularjs/angular-model-objects-with-javascript-classes-2e6a067c73bc
 
 angular.module('app.shared')
-    .factory('Movie', ['$http', 'OmdbService', function ($http, OmdbService) {
+    .factory('Movie', ['$http', 'OmdbService', 'TmdbService', function ($http, OmdbService, TmdbService) {
 
         /**
          * Constructor
@@ -41,8 +41,10 @@ angular.module('app.shared')
             var $this = this;
 
             $this.loading = true;
-            OmdbService.populateMovie(this).then(function() {
-                $this.loading = false;
+            TmdbService.populateMovie($this).then(function() {
+                OmdbService.populateMovie($this).then(function() {
+                    $this.loading = false;
+                });
             });
         };
 

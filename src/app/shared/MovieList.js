@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app.shared')
-    .service('MovieList', ['ReleaseLogFeed', 'SceneSourceFeed', function (ReleaseLogFeed, SceneSourceFeed) {
+    .service('MovieList', ['ReleaseLogFeed', 'SceneSourceFeed', 'ReleasesBbFeed', function (ReleaseLogFeed, SceneSourceFeed, ReleasesBbFeed) {
         var $this = this;
         this.movies = [];
 

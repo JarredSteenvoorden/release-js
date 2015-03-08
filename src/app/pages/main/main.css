@@ -215,6 +215,10 @@
         transition: all 0.5s;
     }
 
+.download-release-name {
+    float: right;
+}
+
 .download-iframe {
     width: 100%;
     height: calc(100% - 35px);
