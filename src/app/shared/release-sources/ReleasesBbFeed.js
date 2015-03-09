@@ -1,3 +1,6 @@
+// Releases BB
+// http://www.rlsbb.com
+
 'use strict';
 
 angular.module('app.shared')
@@ -5,19 +8,21 @@ angular.module('app.shared')
         var feedUrl = 'http://www.rlsbb.com/category/movies/feed';
 
         return {
-            load : function(success) {
+            load : function(complete) {
                 FeedService.load(feedUrl, function (feedResponse) {
                     var movies = [];
                     angular.forEach(feedResponse.responseData.feed.entries, function (feedEntry) {
+
                         // Create movie object from rss
-                        var movie = new Movie(
-                            feedEntry.title
-                        );
+                        var movie = new Movie(feedEntry.title, Date.parse(feedEntry.publishedDate));
 
                         this.push(movie);
                     }, movies);
 
-                    success(movies);
+                    complete(movies);
+                },
+                function() {
+                    complete([]);
                 })
             }
         }

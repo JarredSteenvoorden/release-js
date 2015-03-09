@@ -4,6 +4,8 @@
 angular.module('app.pages')
     .controller('MainController', ['$scope', '$modal', 'MovieList', function($scope, $modal, MovieList) {
 
+        $scope.search = '';
+
         $scope.minimumRatings = [
             { display: 'No minimum', filter: 0 },
             { display: 'At least 5.0', filter: 50 },
@@ -45,6 +47,18 @@ angular.module('app.pages')
         $scope.selectGenre = function(genre) {
             $scope.selectedGenre = genre;
             genreModal.hide();
+        };
+
+        $scope.searchFilter = function(movie) {
+            if ($scope.search.length == 0)
+                return true;
+
+            var searchRegExp = new RegExp($scope.search, 'i');
+
+            return movie.title.search(searchRegExp) >= 0 ||
+                movie.genres.search(searchRegExp) >= 0 ||
+                movie.quality.search(searchRegExp) >= 0
+            ;
         };
 
         $scope.minimumScoreFilter = function (movie) {

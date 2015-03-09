@@ -1,3 +1,6 @@
+// Scene Source
+// http://www.scnsrc.me
+
 'use strict';
 
 angular.module('app.shared')
@@ -5,7 +8,7 @@ angular.module('app.shared')
         var feedUrl = 'http://www.scnsrc.me/category/films/feed';
 
         return {
-            load : function(success) {
+            load : function(complete) {
                 FeedService.load(feedUrl, function (feedResponse) {
                     var movies = [];
                     angular.forEach(feedResponse.responseData.feed.entries, function (feedEntry) {
@@ -15,14 +18,15 @@ angular.module('app.shared')
                             return;
 
                         // Create movie object from rss
-                        var movie = new Movie(
-                            feedEntry.title
-                        );
+                        var movie = new Movie(feedEntry.title, Date.parse(feedEntry.publishedDate));
 
                         this.push(movie);
                     }, movies);
 
-                    success(movies);
+                    complete(movies);
+                },
+                function() {
+                    complete([]);
                 })
             }
         }

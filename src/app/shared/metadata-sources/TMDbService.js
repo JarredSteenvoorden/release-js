@@ -59,7 +59,7 @@ angular.module('app.shared')
                 );
             },
 
-            get: function(title, year) {
+            get: function(title, year, imdbId) {
                 var $this = this;
                 var deferred = $q.defer();
                 var cacheKey = title + " " + year;
@@ -73,6 +73,7 @@ angular.module('app.shared')
                     var movieData = cache.get(cacheKey, { onExpire: function (key, value) { movieDataExpired = value; } });
                     if (angular.isUndefinedOrNull(movieData))
                     {
+                        // Search with title and year
                         theMovieDb.search.getMovie({'query': encodeURIComponent(title), 'year': encodeURIComponent(year)},
                             function (data) {
                                 var searchResults = JSON.parse(data);
@@ -80,15 +81,40 @@ angular.module('app.shared')
                                     $this.processSearch(cacheKey, movieDataExpired, deferred, searchResults.results[0]);
                                 } else {
                                     console.log('TMDb lookup for ' + title + ' with year ' + year + ' failed, no results. Will try without year. ' + data);
+
+                                    // Search with just title
                                     theMovieDb.search.getMovie({'query': encodeURIComponent(title)},
                                         function (data) {
                                             var searchResults = JSON.parse(data);
                                             if (angular.isArray(searchResults.results) && searchResults.results.length > 0) {
                                                 $this.processSearch(cacheKey, movieDataExpired, deferred, searchResults.results[0]);
                                             } else {
-                                                console.log('TMDb lookup for ' + title + ' without ' + year + ' failed, no results. Giving up. ' + data);
-                                                cache.put(cacheKey, movieDataExpired);
-                                                deferred.resolve(movieDataExpired);
+                                                var imdbMessage = angular.isNullOrWhitespace(imdbId) ? 'No IMDB id, giving up. ' : 'Will try with IMDB id. '
+                                                console.log('TMDb lookup for ' + title + ' without year failed, no results. ' + imdbMessage + data);
+
+                                                // Search with IMDB id provided by feed
+                                                if (!angular.isNullOrWhitespace(imdbId)) {
+                                                    theMovieDb.find.getById({"id": imdbId, "external_source":"imdb_id"},
+                                                        function(data) {
+                                                            var searchResults = JSON.parse(data);
+                                                            if (angular.isArray(searchResults.movie_results) && searchResults.movie_results.length > 0) {
+                                                                $this.processSearch(cacheKey, movieDataExpired, deferred, searchResults.movie_results[0]);
+                                                            } else {
+                                                                console.log('TMDb lookup for ' + title + ' using IMDB id ' + imdbId + ' failed, no results. Giving up. ' + data);
+                                                                cache.put(cacheKey, movieDataExpired);
+                                                                deferred.resolve(movieDataExpired);
+                                                            }
+                                                        },
+                                                        function(data) {
+                                                            // Movie update failed, use old cache value
+                                                            console.log('TMDb lookup for ' + title + ' using IMDB id ' + imdbId + ' failed. ' + data);
+                                                            cache.put(cacheKey, movieDataExpired);
+                                                            deferred.resolve(movieDataExpired);
+                                                        });
+                                                } else {
+                                                    cache.put(cacheKey, movieDataExpired);
+                                                    deferred.resolve(movieDataExpired);
+                                                }
                                             }
                                         },
                                         function (data) {
@@ -120,7 +146,7 @@ angular.module('app.shared')
                 var deferred = $q.defer();
 
                 // Try getting the movie by it's title first
-                $this.get(movie.title, movie.year).then(function(data) {
+                $this.get(movie.title, movie.year, movie.imdbId).then(function(data) {
                     if (!angular.isUndefinedOrNull(data)) {
 
                         // Correct title (release titles can be wrong) and get temporary overview until we lookup TMDb

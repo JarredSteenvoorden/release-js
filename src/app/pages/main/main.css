@@ -261,3 +261,13 @@
         margin-left: 10px;
         text-align: center;
     }
+
+    .search-input {
+        width: 200px;
+        padding: 5px;
+        margin: 5px;
+
+        border: 0;
+        background-color: #30414A;
+        text-align: center;
+    }

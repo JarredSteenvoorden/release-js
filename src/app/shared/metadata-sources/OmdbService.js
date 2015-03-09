@@ -98,7 +98,9 @@ angular.module('app.shared')
                             deferred.resolve(true);
                         } else {
                             // Failed lookup using title, attempt with IMDB id
-                            console.log('OMDb lookup failed for ' + movie.title + ' with year ' + movie.year + '. Will try IMDB Id. ' + data.Error);
+                            var imdbMessage = angular.isNullOrWhitespace(movie.imdbId) ? 'No IMDB id, giving up. ' : 'Will try with IMDB id. '
+                            console.log('OMDb lookup for ' + movie.title + ' with year ' + movie.year + ' failed. ' + imdbMessage + data.Error);
+
                             if (!angular.isNullOrWhitespace(movie.imdbId)) {
                                 $this.getByImdbId(movie.imdbId).then(function(data) {
                                     if (data) {
@@ -107,7 +109,7 @@ angular.module('app.shared')
                                             $this.populate(movie, data);
                                             deferred.resolve(true);
                                         } else {
-                                            console.log('OMDb lookup failed for ' + movie.title + ' using IMDB Id ' + movie.imdbId + '. ' + data.Error);
+                                            console.log('OMDb lookup for ' + movie.title + ' using IMDB Id ' + movie.imdbId + ' failed. Giving up.' + data.Error);
                                             deferred.resolve(false);
                                         }
                                     } else

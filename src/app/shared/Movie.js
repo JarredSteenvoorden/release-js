@@ -7,8 +7,9 @@ angular.module('app.shared')
         /**
          * Constructor
          */
-        function Movie(releaseName) {
+        function Movie(releaseName, releaseDate) {
             this.releaseName = releaseName;
+            this.releaseDate = releaseDate;
 
             // Extract info from the release name, eg
             // American Heist 2014 DVDRip x264-EXViD
@@ -20,8 +21,20 @@ angular.module('app.shared')
                 this.year = regexResult[2].trim();
 
                 // Release info
-                var extraInfo = regexResult[3].replace('LIMITED', '').replace('LiMiTED', '').trim().split(' ');
-                this.quality = extraInfo.length >= 3 ? extraInfo[extraInfo.length - 3] : '';
+                // Remove rubbish
+                var extraInfo = regexResult[3]
+                    .replace(/proper/gi, '')
+                    .replace(/limited/gi, '')
+                    .replace(/extended/gi, '')
+                    .replace(/readnfo/gi, '')
+                    .replace(/subbed/gi, '')
+                    .replace(/unrated/gi, '')
+                    .replace(/ntsc/gi, '')
+                    .replace(/pal/gi, '')
+                    .trim().split(' ');
+
+                //this.quality = extraInfo.length >= 3 ? extraInfo[extraInfo.length - 3] : '';
+                this.quality = extraInfo.length >= 1 ? extraInfo[0] : '';
                 this.source = extraInfo.length >= 2 ? extraInfo[extraInfo.length - 2] : '';
                 this.encoding = extraInfo.length >= 1 ? extraInfo[extraInfo.length - 1] : '';
                 this.releaseGroup = regexResult[4];
@@ -31,8 +44,18 @@ angular.module('app.shared')
 
                 this.releaseSearch = this.title + ' ' + this.year + ' ' + this.getQuality();
             }
-            else
+            else {
                 this.title = releaseName;
+                this.year = '';
+                this.quality = '';
+                this.source = '';
+                this.encoding = '';
+                this.releaseGroup = '';
+            }
+
+            // Meta data to be filled later
+            this.genres = '';
+            this.plot = '';
         }
 
         Movie.prototype.lookupMetaData = function () {

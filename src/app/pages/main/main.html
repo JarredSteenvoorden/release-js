@@ -1,13 +1,13 @@
 ﻿<div class="heading-logo"><a href="#" ng-click="refresh()">releasejs</a></div>
 <div class="heading-options">
+    <input type="text" class="search-input" ng-model="search" />
     <div class="selected-genre genre" ng-click="showGenreModal()"><i class="fa fa-users"></i> {{selectedGenre.display}}</div>
     <div class="selected-genre genre" ng-click="showMinimumRatingModal()"><i class="fa fa-star"></i> {{selectedMinimumRating.display}}</div>
 </div>
 <div class="clearfix"></div>
 
 <div class="movie-list clearfix">
-    <div class="movie" ng-repeat="movie in movies | filter: {genres: selectedGenre.filter} | filter: minimumScoreFilter">
-
+    <div class="movie" ng-repeat="movie in movies | filter: searchFilter | filter: {genres: selectedGenre.filter} | filter: minimumScoreFilter">
         <div class="movie-container-left" ng-click="playTrailer(movie, $event)">
             <div class="movie-poster" ng-class="{'movie-poster-none': !movie.posterImage}" ng-style="movie.posterImage ? {'background-image': 'url(' + movie.posterImage + ')'} : {}"></div>
             <i class="movie-trailer-button fa fa-youtube-play"></i>
