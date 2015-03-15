@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header clearfix">
                 <div class="modal-close fa fa-times" ng-click="$hide()"></div>
-                <h4 class="modal-title">{{movie.title}} ({{movie.year}})</h4>
+                <h4 class="modal-title">{{release.title}} ({{release.year}})</h4>
                 <div class="clear"></div>
             </div>
             <div class="modal-body">
@@ -11,7 +11,7 @@
                 <div class="download-site" ng-click="showSite(1)"><i class="fa fa-cloud-download"></i> extra torrent</div>
                 <div class="download-site" ng-click="showSite(2)"><i class="fa fa-cloud-download"></i> dognzb</div>
                 <div class="download-site" ng-click="showSite(3)"><i class="fa fa-cloud-download"></i> nzb club</div>
-                <div class="download-release-name">{{movie.releaseName}}</div>
+                <div class="download-release-name">{{release.name}}</div>
                 <div class="clear"></div>
 
                 <iframe ng-show="shownSite == 0" class="download-iframe" ng-src="{{trustSrc(kickassSearchUrl)}}"> </iframe>

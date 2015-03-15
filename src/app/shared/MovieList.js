@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('app.shared')
-    .service('MovieList', ['ReleaseLogFeed', 'SceperFeed', 'SceneSourceFeed', 'ReleasesBbFeed', function (ReleaseLogFeed, SceperFeed, SceneSourceFeed, ReleasesBbFeed) {
+    .service('MovieList', ['Movie', 'ReleaseLogFeed', 'SceperFeed', 'SceneSourceFeed', 'ReleasesBbFeed', function (Movie, ReleaseLogFeed, SceperFeed, SceneSourceFeed, ReleasesBbFeed) {
         var $this = this;
         this.movies = [];
-        this.movieReleaseNames = [];
+        this.movieByTitle = [];
 
         this.load = function() {
             // Load from scene source
@@ -17,33 +17,32 @@ angular.module('app.shared')
         };
 
         this.loadFeed = function(feed) {
-            feed.load(function (movies) {
-                var results = [];
-                angular.forEach(movies, function (movie) {
-                    results.push(movie);
-                });
-
-                $this.processResults(results);
+            feed.load(function (releases) {
+                $this.processResults(releases);
             });
         };
 
-        this.processResults = function(results) {
-            angular.forEach(results, function (movie) {
+        this.processResults = function(releases) {
+            angular.forEach(releases, function (release) {
 
-                // Get a comparable release name (remove special characters)
-                var releaseName = movie.releaseName
+                // Get a comparable title (remove special characters)
+                var title = release.title
                     .replace(/[^\w\s]/gi, '')
                     .toLowerCase().trim();
 
-                // Don't duplicate releases
-                if ($this.movieReleaseNames.indexOf(releaseName) < 0) {
-                    movie.lookupMetaData();
+                var movie = $this.movieByTitle[title];
+
+                if (angular.isUndefinedOrNull(movie)) {
+                    movie = new Movie(release);
+                    $this.movieByTitle[title] = movie;
                     $this.movies.push(movie);
-                    $this.movieReleaseNames.push(releaseName);
-                }
+
+                    movie.lookupMetaData();
+                } else
+                    movie.addRelease(release);
             });
 
             // Sort movies by publish date
-            $this.movies.sort(function(a, b) { return b.releaseDate - a.releaseDate; });
+            $this.movies.sort(function(a, b) { return b.latestRelease.date - a.latestRelease.date; });
         };
     }]);

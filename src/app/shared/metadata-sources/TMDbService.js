@@ -151,10 +151,14 @@ angular.module('app.shared')
 
                         // Correct title (release titles can be wrong) and get temporary overview until we lookup TMDb
                         movie.title = data.title;
-                        movie.plot = data.overview.length <= 280 ? data.overview : data.overview.substr(0, 280) + '...';
+
+                        if (!angular.isNullOrWhitespace(data.overview))
+                            movie.plot = data.overview.length <= 280 ? data.overview : data.overview.substr(0, 280) + '...';
 
                         // Get poster and imdb link in case source didn't provide
-                        movie.posterImage = configuration.images.base_url + 'w185' + data.poster_path;
+                        if (!angular.isNullOrWhitespace(data.poster_path))
+                            movie.posterImage = configuration.images.base_url + 'w185' + data.poster_path;
+
                         movie.imdbId = data.imdb_id;
 
                         deferred.resolve(true);

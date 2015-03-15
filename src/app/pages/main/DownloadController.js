@@ -2,9 +2,9 @@
 
 angular.module('app.pages')
     .controller('DownloadController', ['$scope', '$sce', function($scope, $sce) {
-        $scope.movie = $scope.$parent.$parent.movie;
+        $scope.release = $scope.$parent.$parent.release;
 
-        var searchQuery = encodeURIComponent($scope.movie.releaseSearch);
+        var searchQuery = encodeURIComponent($scope.release.searchQuery);
 
         $scope.kickassSearchUrl = "https://kickass.to/usearch/" + searchQuery + "/?field=time_add&sorder=desc";
         $scope.extraTorrentUrl = "http://extratorrent.cc/search/?search=" + searchQuery;

@@ -14,20 +14,18 @@
     vertical-align: top;
 
     background-color: #30414A;
-    /*transition: background-color 0.5s;*/
 }
     .movie:hover {
         background-color: #435C6B;
-        transition: background-color 0.5s;
     }
 
     .movie-loading {
         position: absolute;
         top: 0;
         left: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+
+        text-align: center;
+        line-height: 260px;
 
         width: 100%;
         height: 100%;
@@ -68,9 +66,8 @@
             visibility: hidden;
             opacity: 0;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            text-align: center;
+            line-height: 260px;
 
             width: 100%;
             height: 100%;
@@ -137,18 +134,36 @@
             background-color: #FFAAAA;
         }
 
-    .movie-quality {
+    .movie-qualities {
         position: absolute;
         bottom: 20px;
         right: 20px;
 
-        line-height: 25px;
-        cursor: pointer;
+        padding: 10px 0 0 10px;
         transition: all 0.5s;
     }
-        .movie-quality:hover {
-            color: #5bb6d1;
+        .movie-qualities:hover {
+            background-color: #435C6B;
             transition: all 0.5s;
+        }
+        .movie-quality {
+            line-height: 25px;
+            cursor: pointer;
+
+            opacity: 0;
+            transition: all 0.5s;
+        }
+            .movie-qualities:hover .movie-quality {
+                opacity: 1;
+                transition: all 0.5s;
+            }
+            .movie-quality:hover {
+                color: #5bb6d1;
+                transition: color 0.5s;
+            }
+
+        .movie-quality-best {
+            opacity: 1;
         }
 
     .movie-trailer-container {
@@ -271,3 +286,11 @@
         background-color: #30414A;
         text-align: center;
     }
+
+.movie-count {
+    margin: 20px;
+    width: 100%;
+
+    font-size: 1em;
+    text-align: center;
+}

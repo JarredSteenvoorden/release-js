@@ -4,13 +4,13 @@
 'use strict';
 
 angular.module('app.shared')
-    .factory('SceneSourceFeed', ['FeedService', 'Movie', function(FeedService, Movie) {
+    .factory('SceneSourceFeed', ['FeedService', 'MovieRelease', function(FeedService, MovieRelease) {
         var feedUrl = 'http://www.scnsrc.me/category/films/feed';
 
         return {
             load : function(complete) {
                 FeedService.load(feedUrl, function (feedResponse) {
-                    var movies = [];
+                    var releases = [];
                     angular.forEach(feedResponse.responseData.feed.entries, function (feedEntry) {
 
                         // Exclude stray tv results
@@ -18,12 +18,15 @@ angular.module('app.shared')
                             return;
 
                         // Create movie object from rss
-                        var movie = new Movie(feedEntry.title, Date.parse(feedEntry.publishedDate));
+                        var movieRelease = new MovieRelease(feedEntry.title, Date.parse(feedEntry.publishedDate));
 
-                        this.push(movie);
-                    }, movies);
+                        // Match <img src="somthing.jpg" /> to extract the poster
+                        // Scene Source has no image in it's RSS content
 
-                    complete(movies);
+                        this.push(movieRelease);
+                    }, releases);
+
+                    complete(releases);
                 },
                 function() {
                     complete([]);

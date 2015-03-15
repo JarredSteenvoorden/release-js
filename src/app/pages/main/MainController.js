@@ -56,8 +56,7 @@ angular.module('app.pages')
             var searchRegExp = new RegExp($scope.search, 'i');
 
             return movie.title.search(searchRegExp) >= 0 ||
-                movie.genres.search(searchRegExp) >= 0 ||
-                movie.quality.search(searchRegExp) >= 0
+                movie.genres.search(searchRegExp) >= 0
             ;
         };
 
@@ -100,9 +99,9 @@ angular.module('app.pages')
             });
         };
 
-        $scope.showDownloadModal = function(movie) {
+        $scope.showDownloadModal = function(release) {
             var scope = $scope.$new();
-            scope.movie = movie;
+            scope.release = release;
             var downloadModal = $modal({scope: scope, template: 'download_modal.html', show: false});
 
             downloadModal.$promise.then(downloadModal.show);

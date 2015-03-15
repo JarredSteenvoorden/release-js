@@ -7,56 +7,47 @@ angular.module('app.shared')
         /**
          * Constructor
          */
-        function Movie(releaseName, releaseDate) {
-            this.releaseName = releaseName;
-            this.releaseDate = releaseDate;
-
-            // Extract info from the release name, eg
-            // American Heist 2014 DVDRip x264-EXViD
-            var regexResult = /(^|.*)( \d{4} )(.*)-(.*|$)/.exec(releaseName);
-            if (regexResult && regexResult.length == 5)
-            {
-                // Movie info
-                this.title = regexResult[1].trim();
-                this.year = regexResult[2].trim();
-
-                // Release info
-                // Remove rubbish
-                var extraInfo = regexResult[3]
-                    .replace(/proper/gi, '')
-                    .replace(/limited/gi, '')
-                    .replace(/extended/gi, '')
-                    .replace(/readnfo/gi, '')
-                    .replace(/subbed/gi, '')
-                    .replace(/unrated/gi, '')
-                    .replace(/ntsc/gi, '')
-                    .replace(/pal/gi, '')
-                    .trim().split(' ');
-
-                //this.quality = extraInfo.length >= 3 ? extraInfo[extraInfo.length - 3] : '';
-                this.quality = extraInfo.length >= 1 ? extraInfo[0] : '';
-                this.source = extraInfo.length >= 2 ? extraInfo[extraInfo.length - 2] : '';
-                this.encoding = extraInfo.length >= 1 ? extraInfo[extraInfo.length - 1] : '';
-                this.releaseGroup = regexResult[4];
-
-                // Quality descriptions
-                //http://www.thenerdmachine.com/community/topic/10851-the-all-formats-bible-guide/
-
-                this.releaseSearch = this.title + ' ' + this.year + ' ' + this.getQuality();
-            }
-            else {
-                this.title = releaseName;
-                this.year = '';
-                this.quality = '';
-                this.source = '';
-                this.encoding = '';
-                this.releaseGroup = '';
-            }
+        function Movie(release) {
+            // Movie info (will be updated from metadata
+            this.title = release.title;
+            this.year = release.year;
 
             // Meta data to be filled later
             this.genres = '';
             this.plot = '';
+
+            // Manage release list
+            this.releases = [];
+            this.latestRelease = undefined;
+            this.addRelease(release);
         }
+
+        Movie.prototype.addRelease = function(release) {
+
+            // Grab meta data from release if needed
+            if (!angular.isNullOrWhitespace(release.imdbId) && angular.isNullOrWhitespace(this.imdbId))
+                this.imdbId = release.imdbId;
+            if (!angular.isNullOrWhitespace(release.posterImage) && angular.isNullOrWhitespace(this.posterImage))
+                this.posterImage = release.posterImage;
+
+            // Check if a similar release already exists
+            var alreadyHasQuality = this.releases.some(function (existingRelease) {
+                return existingRelease.quality == release.quality;
+            });
+
+            if (alreadyHasQuality)
+                return;
+
+            // Add release
+            this.releases.push(release);
+
+            // Sort releases by date
+            this.releases.sort(function(a, b) { return b.date - a.date; });
+            this.latestRelease = this.releases[0];
+
+            // Sort releases by quality
+            this.releases.sort(function(a, b) { return b.qualityIndex - a.qualityIndex; });
+        };
 
         Movie.prototype.lookupMetaData = function () {
 
@@ -74,10 +65,6 @@ angular.module('app.shared')
         /**
          * Public methods
          */
-        Movie.prototype.getQuality = function () {
-            return !angular.isNullOrWhitespace(this.quality) ? this.quality : this.source;
-        };
-
         Movie.prototype.getImdbRating = function () {
             return !angular.isNullOrWhitespace(this.imdbRating) ? this.imdbRating : '-';
         };
@@ -140,29 +127,6 @@ angular.module('app.shared')
 
             return 'rating-red';
         }
-
-        /**
-         * Private property
-         */
-        var possibleRoles = ['admin', 'editor', 'guest'];
-
-        function checkRole(role) {
-            return possibleRoles.indexOf(role) !== -1;
-        }
-
-        /**
-         * Static property
-         */
-        Movie.possibleRoles = angular.copy(possibleRoles);
-
-        /**a
-         * Static method
-         */
-        Movie.build = function (data) {
-            return new Movie(
-                data.release_name
-            );
-        };
 
         /**
          * Return the constructor function

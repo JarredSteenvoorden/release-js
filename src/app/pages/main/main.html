@@ -16,7 +16,7 @@
         <div class="movie-container-right">
             <div class="movie-title">{{movie.title}}</div>
             <div class="movie-info">{{movie.year}} - {{movie.genres}}</div>
-            <div class="movie-plot">{{movie.plot}}</div>
+            <div class="movie-plot" ng-hide="movie.loading">{{movie.plot}}</div>
         </div>
 
         <div class="movie-loading" ng-show="movie.loading">
@@ -27,7 +27,12 @@
             <a class="movie-rating" ng-class="movie.getTomatoStyle()" ng-href="{{movie.getTomatoLink()}}" target="_blank">{{movie.getTomatoMeter()}}</a>
             <a class="movie-rating" ng-class="movie.getImdbStyle()" ng-href="{{movie.getImdbLink()}}" target="_blank">{{movie.getImdbRating()}}</a>
         </div>
-        <div class="movie-quality" ng-click="showDownloadModal(movie)"><i class="fa fa-cloud-download"></i> {{movie.getQuality()}}</div>
+
+        <div class="movie-qualities">
+            <div class="movie-quality" ng-repeat="release in movie.releases" ng-class="{'movie-quality-best': $last}" ng-click="showDownloadModal(release)">
+                <i class="fa fa-cloud-download"></i> {{release.quality}} <span class="badge" ng-show="$last && movie.releases.length > 1">{{movie.releases.length}}</span>
+            </div>
+        </div>
 
         <div class="movie-trailer-container">
             <div class="movie-trailer-header">
@@ -37,3 +42,5 @@
         </div>
     </div>
 </div>
+
+<div class="movie-count">collated {{movies.length}} movie releases</div>
